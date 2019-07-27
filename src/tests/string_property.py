@@ -45,3 +45,29 @@ class StringPropertyTests(TestCase):
             name.get(dict(name=value)),
             expected_value,
         )
+
+    def test__transforms__strip(self):
+        value, expected_value = ' hannah \t\r\n', 'hannah'
+        name = StringProperty(
+            sources=['name'],
+            required=True,
+            transforms=[str.strip]
+        )
+
+        self.assertEqual(
+            name.get(dict(name=value)),
+            expected_value,
+        )
+
+    def test__transforms__strip_chars(self):
+        value, expected_value = '[hannah]', 'hannah'
+        name = StringProperty(
+            sources=['name'],
+            required=True,
+            transforms=[lambda s: s.strip('[]')]
+        )
+
+        self.assertEqual(
+            name.get(dict(name=value)),
+            expected_value,
+        )
