@@ -33,6 +33,10 @@ class StringPropertyTests(TestCase):
         with self.assertRaises(AssertionError):
             StringProperty().get(dict(name='hannah'))
 
+    def test__numbers(self):
+        prop = StringProperty(sources=['n'])
+        self.assertEqual(prop.get(dict(n=1)), '1')
+
     def test__transforms__capitalize(self):
         value, expected_value = 'hannah', 'Hannah'
         name = StringProperty(
