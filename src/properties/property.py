@@ -1,11 +1,11 @@
-from typing import Iterable, Callable
+from typing import Iterable
 
 from src.errors import PropertyNotFound
+from src.properties.transformable import TransformableProperty
 from src.utils import NOT_SET
 
 
-class Property:
-    transforms = []
+class Property(TransformableProperty):
     required = True
     default = NOT_SET
     sources = None
@@ -15,8 +15,10 @@ class Property:
             sources: Iterable = NOT_SET,
             default: str = NOT_SET,
             required: bool = NOT_SET,
-            transforms: Iterable[Callable[[str], str]] = NOT_SET,
+            **kwargs,
     ):
+        super().__init__(**kwargs)
+
         if sources is not NOT_SET:
             self.sources = sources
 
@@ -26,20 +28,17 @@ class Property:
             self.default = default
         if self.required is not NOT_SET:
             self.required = required
-        if transforms is not NOT_SET:
-            self.transforms = transforms
 
-    def get(self, data: dict, alt_sources: Iterable = None):
-        sources = self.sources if alt_sources is None else alt_sources
-        assert sources, \
-            'At least one source must be defined either through argument ' \
-            '`alt_sources` or field `sources`'
-        value = self.get_raw(data, sources)
+    def get(self, data: dict):
+        value = self.get_raw(data)
         value = self.transform(value)
         return value
 
-    def get_raw(self, src: dict, sources: Iterable):
-        for source in sources:
+    def get_raw(self, src: dict):
+        assert self.sources, \
+            'sources must be defined before getting property value'
+
+        for source in self.sources:
             try:
                 value = src[source]
             except KeyError:
@@ -55,11 +54,3 @@ class Property:
                 value = None
 
         return value
-
-    def transform(self, value: str):
-        for transform in self.get_transforms():
-            value = transform(value)
-        return value
-
-    def get_transforms(self):
-        return self.transforms
