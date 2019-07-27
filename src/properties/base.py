@@ -31,6 +31,9 @@ class Property:
 
     def get(self, data: dict, alt_sources: Iterable = None):
         sources = self.sources if alt_sources is None else alt_sources
+        assert sources, \
+            'At least one source must be defined either through argument ' \
+            '`alt_sources` or field `sources`'
         value = self.get_raw(data, sources)
         value = self.transform(value)
         return value
