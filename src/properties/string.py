@@ -1,5 +1,6 @@
-from src.properties.base import Property
+from src.properties.property import Property
 
 
 class StringProperty(Property):
-    pass
+    def transform(self, value: str):
+        return super().transform(str(value))
