@@ -10,6 +10,9 @@ class MapResult:
         self.mapper = mapper
         self.data = data
 
+    def keys(self):
+        return self.mapper.properties.keys()
+
     def __iter__(self) -> Iterator[Tuple[Any, Any]]:
         return (
             (key, self.result.get(key, self[key]))
