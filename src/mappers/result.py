@@ -22,6 +22,6 @@ class MapResult:
         try:
             value = self.result[item]
         except KeyError:
-            value = self.mapper.props_map[item].get(self.data)
+            value = self.mapper.props_map[item].get(self.data, self)
             self.result[item] = value
         return value

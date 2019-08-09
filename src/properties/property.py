@@ -29,7 +29,7 @@ class Property(TransformableProperty):
         if self.required is not NOT_SET:
             self.required = required
 
-    def get(self, data: dict):
+    def get(self, data: dict, result=None):
         value = self.get_raw(data)
         value = self.transform(value)
         return value

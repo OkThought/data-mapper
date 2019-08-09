@@ -14,6 +14,6 @@ class MapperBase(AbstractProperty):
     def get_props_map(self) -> Iterable[Tuple[Any, AbstractProperty]]:
         pass
 
-    def get(self, data: Dict):
+    def get(self, data: Dict, result=None):
         from src.mappers.result import MapResult
         return MapResult(self, data)

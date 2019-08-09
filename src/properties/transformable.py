@@ -16,7 +16,7 @@ class TransformableProperty(AbstractProperty, ABC):
     def get_raw(self, data):
         pass
 
-    def get(self, data: dict):
+    def get(self, data: dict, result=None):
         value = self.get_raw(data)
         value = self.transform(value)
         return value
