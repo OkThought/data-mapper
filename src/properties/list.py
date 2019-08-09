@@ -13,8 +13,5 @@ class ListProperty(Property):
         if allowed_types is not NOT_SET:
             self.allowed_types = allowed_types
 
-    def get_raw(self, src: dict):
-        return super().get_raw(src)
-
-    def transform(self, value: str):
+    def transform(self, value):
         return super().transform(list(value))

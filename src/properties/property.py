@@ -30,17 +30,17 @@ class Property(TransformableProperty):
             self.required = required
 
     def get(self, data: dict, result=None):
-        value = self.get_raw(data)
+        value = self.get_raw(data, result=result)
         value = self.transform(value)
         return value
 
-    def get_raw(self, src: dict):
+    def get_raw(self, data: dict, result=None):
         assert self.sources, \
             'sources must be defined before getting property value'
 
         for source in self.sources:
             try:
-                value = src[source]
+                value = data[source]
             except KeyError:
                 continue
             else:
