@@ -13,7 +13,7 @@ class Property(TransformableProperty):
     def __init__(
             self,
             sources: Iterable = NOT_SET,
-            default: str = NOT_SET,
+            default=NOT_SET,
             required: bool = NOT_SET,
             **kwargs,
     ):
