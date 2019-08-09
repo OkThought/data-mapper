@@ -5,7 +5,7 @@ from src.properties.abstract import AbstractProperty
 from src.utils import cached_property
 
 
-class MapperBase:
+class MapperBase(AbstractProperty):
     @cached_property
     def props_map(self):
         return dict(self.get_props_map())
@@ -14,6 +14,6 @@ class MapperBase:
     def get_props_map(self) -> Iterable[Tuple[Any, AbstractProperty]]:
         pass
 
-    def map(self, data: Dict):
+    def get(self, data: Dict):
         from src.mappers.result import MapResult
         return MapResult(self, data)

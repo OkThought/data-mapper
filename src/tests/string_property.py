@@ -13,7 +13,7 @@ class StringPropertyTests(TestCase):
 
         mapper = MyMapper()
         self.assertEqual(
-            dict(mapper.map(dict(name=value))),
+            dict(mapper.get(dict(name=value))),
             dict(name=expected_value),
         )
 
@@ -25,7 +25,7 @@ class StringPropertyTests(TestCase):
 
         mapper = MyMapper()
         self.assertEqual(
-            dict(mapper.map(dict(name=value))),
+            dict(mapper.get(dict(name=value))),
             dict(name=expected_value),
         )
 

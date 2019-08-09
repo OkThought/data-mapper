@@ -11,8 +11,8 @@ class MapResultTests(TestCase):
             last_name = StringProperty(['surname'])
         mapper = MyMapper()
         name, surname = 'Ivan Bogush'.split()
-        result = mapper.map(dict(name=name, surname=surname))
+        result = mapper.get(dict(name=name, surname=surname))
         self.assertEqual(
-            dict(**result),
             dict(first_name=name, last_name=surname),
+            dict(**result),
         )
