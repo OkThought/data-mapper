@@ -4,18 +4,17 @@ from src.mappers.base import MapperBase
 
 
 class MapResult:
-    result = {}
-
     def __init__(self, mapper: MapperBase, data: Dict):
         self.mapper = mapper
         self.data = data
+        self.result = {}
 
     def keys(self):
         return self.mapper.props_map.keys()
 
     def __iter__(self) -> Iterator[Tuple[Any, Any]]:
         return (
-            (key, self.result.get(key, self[key]))
+            (key, self[key])
             for key in self.mapper.props_map.keys()
         )
 
