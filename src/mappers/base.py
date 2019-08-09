@@ -7,11 +7,11 @@ from src.utils import cached_property
 
 class MapperBase:
     @cached_property
-    def properties(self):
-        return dict(self.get_properties())
+    def props_map(self):
+        return dict(self.get_props_map())
 
     @abstractmethod
-    def get_properties(self) -> Iterable[Tuple[Any, AbstractProperty]]:
+    def get_props_map(self) -> Iterable[Tuple[Any, AbstractProperty]]:
         pass
 
     def map(self, data: Dict):

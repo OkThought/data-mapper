@@ -11,18 +11,18 @@ class MapResult:
         self.data = data
 
     def keys(self):
-        return self.mapper.properties.keys()
+        return self.mapper.props_map.keys()
 
     def __iter__(self) -> Iterator[Tuple[Any, Any]]:
         return (
             (key, self.result.get(key, self[key]))
-            for key in self.mapper.properties.keys()
+            for key in self.mapper.props_map.keys()
         )
 
     def __getitem__(self, item):
         try:
             value = self.result[item]
         except KeyError:
-            value = self.mapper.properties[item].get(self.data)
+            value = self.mapper.props_map[item].get(self.data)
             self.result[item] = value
         return value
