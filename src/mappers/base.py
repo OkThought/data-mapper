@@ -17,12 +17,3 @@ class MapperBase:
     def map(self, data: Dict):
         from src.mappers.result import MapResult
         return MapResult(self, data)
-
-
-class Mapper(MapperBase):
-    def get_properties(self) -> Iterable[Tuple[Any, AbstractProperty]]:
-        for key, prop in self.__class__.__dict__.items():
-            if isinstance(prop, AbstractProperty):
-                if prop.sources is None:
-                    prop.sources = [key]
-                yield (key, prop)

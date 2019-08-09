@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from src.mappers.base import Mapper
+from src.mappers.mapper import Mapper
 from src.properties.string import StringProperty
 
 
