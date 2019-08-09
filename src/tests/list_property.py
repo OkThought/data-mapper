@@ -1,5 +1,6 @@
 from unittest import TestCase
 
+from src.errors import ValidationError
 from src.properties.list import ListProperty
 
 
@@ -28,3 +29,13 @@ class ListPropertyTests(TestCase):
             ],
         )
         self.assertEqual(positive.get(dict(numbers=[-1, 0, 1])), [1])
+
+    def test__validate__only_floats(self):
+        prop = ListProperty(allowed_types=(float,), sources='x')
+        with self.assertRaises(ValidationError):
+            prop.get(dict(x=[1., 2., '3']))
+
+        with self.assertRaises(ValidationError):
+            prop.get(dict(x=[1., 2., 3]))
+
+        prop.get(dict(x=[1., 2., 3.]))

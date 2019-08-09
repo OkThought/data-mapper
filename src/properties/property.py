@@ -31,7 +31,9 @@ class Property(TransformableProperty):
 
     def get(self, data: dict, result=None):
         value = self.get_raw(data, result=result)
+        self.validate_raw(value)
         value = self.transform(value)
+        self.validate(value)
         return value
 
     def get_raw(self, data: dict, result=None):
