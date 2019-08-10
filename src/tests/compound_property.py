@@ -6,7 +6,7 @@ from src.properties.string import StringProperty
 
 class CompoundPropertyTests(TestCase):
     def test__dict(self):
-        prop = CompoundProperty(dict(
+        prop = CompoundProperty(props_map=dict(
             first_name=StringProperty(['name']),
             last_name=StringProperty(['surname']),
         ))

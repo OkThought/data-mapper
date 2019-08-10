@@ -1,21 +1,23 @@
-from abc import abstractmethod
-from typing import Iterable, Tuple, Any, Dict
+from typing import Iterable, Tuple, Any, Mapping
 
 from src.properties.abstract import AbstractProperty
-from src.utils import cached_property
+from src.properties.compound import CompoundProperty
 
 
-class Mapper(AbstractProperty):
-    @cached_property
-    def props_map(self):
-        return dict(self.get_props_map())
+class Mapper(CompoundProperty):
+    def __init__(
+            self,
+            *args,
+            props_map: Mapping[Any, AbstractProperty] = None,
+            **kwargs,
+    ):
+        if props_map is None:
+            props_map = dict(self._get_class_props())
+        super().__init__(*args, props_map=props_map, **kwargs)
 
-    def get(self, data: Dict, result=None):
-        from src.mappers.result import MapResult
-        return MapResult(self, data)
-
-    def get_props_map(self) -> Iterable[Tuple[Any, AbstractProperty]]:
-        for key, prop in self.__class__.__dict__.items():
+    @classmethod
+    def _get_class_props(cls) -> Iterable[Tuple[Any, AbstractProperty]]:
+        for key, prop in cls.__dict__.items():
             if isinstance(prop, AbstractProperty):
                 if getattr(prop, 'sources', 0) is None:
                     prop.sources = [key]

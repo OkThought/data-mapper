@@ -1,20 +1,21 @@
-from typing import Iterable, Tuple, Any, Mapping
+from typing import Any, Mapping
 
-from src.mappers.mapper import Mapper
+from src.mappers.result import MapResult
 from src.properties.abstract import AbstractProperty
+from src.properties.property import Property
 
 
-class CompoundProperty(Mapper):
+class CompoundProperty(Property):
+    sources = [[]]
+
     def __init__(
             self,
+            *args,
             props_map: Mapping[Any, AbstractProperty],
+            **kwargs,
     ):
-        self._props_map = props_map
-        super().__init__()
+        super().__init__(*args, **kwargs)
+        self.props_map = props_map
 
-    def get_props_map(self) -> Iterable[Tuple[Any, AbstractProperty]]:
-        return self._props_map.items()
-
-    @property
-    def props_map(self):
-        return self._props_map
+    def get(self, data, result=None):
+        return MapResult(self.props_map, super().get(data, result))
