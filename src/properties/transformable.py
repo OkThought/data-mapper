@@ -13,12 +13,14 @@ class TransformableProperty(AbstractProperty, ABC):
             self.transforms = transforms
 
     @abstractmethod
-    def get_raw(self, data):
+    def get_raw(self, data, result=None):
         pass
 
     def get(self, data: dict, result=None):
-        value = self.get_raw(data)
+        value = self.get_raw(data, result)
+        self.validate_raw(value)
         value = self.transform(value)
+        self.validate(value)
         return value
 
     def transform(self, value):
