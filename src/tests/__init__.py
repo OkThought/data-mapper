@@ -6,3 +6,4 @@ from .compound_property import CompoundPropertyTests
 from .property_ref import PropertyRefTests
 from .dict_property import DictPropertyTests
 from .integer_property import IntegerPropertyTests
+from .float_property import FloatPropertyTests
