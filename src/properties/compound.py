@@ -6,16 +6,21 @@ from src.properties.property import Property
 
 
 class CompoundProperty(Property):
-    sources = [[]]
-
     def __init__(
             self,
             *args,
             props_map: Mapping[Any, AbstractProperty],
+            lazy: bool = True,
             **kwargs,
     ):
         super().__init__(*args, **kwargs)
         self.props_map = props_map
+        self.lazy = lazy
 
-    def get(self, data, result=None):
-        return MapResult(self.props_map, super().get(data, result))
+    def get_raw(self, data, result=None):
+        result = MapResult(
+            self.props_map,
+            data=super().get_raw(data, result),
+            lazy=self.lazy,
+        )
+        return result

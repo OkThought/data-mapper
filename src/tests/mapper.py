@@ -1,6 +1,7 @@
 from unittest import TestCase
 
 from src.mappers.mapper import Mapper
+from src.properties.string import StringProperty
 
 
 class MapperTests(TestCase):
@@ -10,3 +11,29 @@ class MapperTests(TestCase):
         with self.assertRaises(KeyError):
             # noinspection PyStatementEffect
             result['a']
+
+    def test__mapper_as_a_property(self):
+        class PersonId(Mapper):
+            first_name = StringProperty('first_name', 'name')
+            last_name = StringProperty('last_name', 'surname', 'family_name')
+
+        class Person(Mapper):
+            id = PersonId()
+
+        person = Person()
+        first_name = 'Bob'
+        last_name = 'Marley'
+        self.assertEqual(
+            dict(
+                id=dict(
+                    first_name=first_name,
+                    last_name=last_name,
+                )
+            ),
+            person.get(dict(
+                id=dict(
+                    name=first_name,
+                    surname=last_name,
+                ),
+            )),
+        )

@@ -29,10 +29,6 @@ class StringPropertyTests(TestCase):
             dict(name=expected_value),
         )
 
-    def test__without_sources(self):
-        with self.assertRaises(AssertionError):
-            StringProperty().get(dict(name='hannah'))
-
     def test__numbers(self):
         prop = StringProperty(['n'])
         self.assertEqual(prop.get(dict(n=1)), '1')

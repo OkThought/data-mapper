@@ -23,7 +23,7 @@ class PropertyRefTests(TestCase):
 
     def test__deep_source(self):
         class MyMapper(Mapper):
-            full_name = CompoundProperty(props_map=dict(
+            full_name = CompoundProperty((), props_map=dict(
                 first_name=StringProperty(['name']),
                 last_name=StringProperty(['surname']),
             ))

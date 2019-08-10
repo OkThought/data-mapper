@@ -51,10 +51,11 @@ class Property(AbstractProperty):
         return self.transforms
 
     def get_raw(self, data, result=None):
-        assert self.sources, \
-            'sources must be defined before getting property value'
+        sources = self.sources
+        if sources is None:
+            sources = [[]]
 
-        for source in self.sources:
+        for source in sources:
             value = data
             try:
                 if isinstance(source, str):
@@ -70,7 +71,7 @@ class Property(AbstractProperty):
             if self.default is not NOT_SET:
                 value = self.default
             elif self.required:
-                raise PropertyNotFound(self.sources)
+                raise PropertyNotFound(sources)
             else:
                 value = None
 

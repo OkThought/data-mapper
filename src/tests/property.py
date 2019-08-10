@@ -10,3 +10,8 @@ class PropertyTests(TestCase):
         self.assertEqual(data, prop.get(data))
         prop = Property('y', [], 'x')
         self.assertEqual(data, prop.get(data))
+
+    def test__no_sources(self):
+        prop = Property()
+        data = dict(x=1)
+        self.assertEqual(data, prop.get(data))
