@@ -35,7 +35,7 @@ class Property(AbstractProperty):
         if transforms is not NOT_SET:
             self.transforms = transforms
 
-    def get(self, data: dict, result=None):
+    def get(self, data, result=None):
         value = self.get_raw(data, result)
         self.validate_raw(value)
         value = self.transform(value)
@@ -50,7 +50,7 @@ class Property(AbstractProperty):
     def get_transforms(self):
         return self.transforms
 
-    def get_raw(self, data: dict, result=None):
+    def get_raw(self, data, result=None):
         assert self.sources, \
             'sources must be defined before getting property value'
 
