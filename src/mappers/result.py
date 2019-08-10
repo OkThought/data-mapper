@@ -1,10 +1,10 @@
 from typing import Dict, Iterator, Tuple, Any
 
-from src.mappers.base import MapperBase
+from src.mappers.mapper import Mapper
 
 
 class MapResult:
-    def __init__(self, mapper: MapperBase, data: Dict):
+    def __init__(self, mapper: Mapper, data: Dict):
         self.mapper = mapper
         self.data = data
         self.result = {}
