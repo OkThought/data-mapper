@@ -13,7 +13,7 @@ class Property(AbstractProperty):
 
     def __init__(
             self,
-            sources: Iterable = NOT_SET,
+            *sources: Iterable,
             default=NOT_SET,
             required: bool = NOT_SET,
             transforms: Iterable[Callable[[str], str]] = NOT_SET,
@@ -23,8 +23,8 @@ class Property(AbstractProperty):
 
         super().__init__(**kwargs)
 
-        if sources is not NOT_SET:
-            self.sources = sources
+        if len(sources) > 0:
+            self.sources = list(sources)
 
         if default is not NOT_SET:
             self.default = default
@@ -55,8 +55,13 @@ class Property(AbstractProperty):
             'sources must be defined before getting property value'
 
         for source in self.sources:
+            value = data
             try:
-                value = data[source]
+                if isinstance(source, str):
+                    value = value[source]
+                else:
+                    for sub_source in source:
+                        value = value[sub_source]
             except KeyError:
                 continue
             else:

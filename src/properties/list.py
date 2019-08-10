@@ -6,8 +6,8 @@ from src.utils import NOT_SET
 
 
 class ListProperty(Property):
-    def __init__(self, allowed_types: Tuple[type] = NOT_SET, **kwargs):
-        super().__init__(**kwargs)
+    def __init__(self, *args, allowed_types: Tuple[type] = NOT_SET, **kwargs):
+        super().__init__(*args, **kwargs)
         self.allowed_types = allowed_types
 
     def get_raw(self, data: dict, result=None):

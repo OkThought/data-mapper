@@ -34,13 +34,13 @@ class StringPropertyTests(TestCase):
             StringProperty().get(dict(name='hannah'))
 
     def test__numbers(self):
-        prop = StringProperty(sources=['n'])
+        prop = StringProperty(['n'])
         self.assertEqual(prop.get(dict(n=1)), '1')
 
     def test__transforms__capitalize(self):
         value, expected_value = 'hannah', 'Hannah'
         name = StringProperty(
-            sources=['name'],
+            ['name'],
             required=True,
             transforms=[str.capitalize]
         )
@@ -53,7 +53,7 @@ class StringPropertyTests(TestCase):
     def test__transforms__strip(self):
         value, expected_value = ' hannah \t\r\n', 'hannah'
         name = StringProperty(
-            sources=['name'],
+            ['name'],
             required=True,
             transforms=[str.strip]
         )
@@ -66,7 +66,7 @@ class StringPropertyTests(TestCase):
     def test__transforms__strip_chars(self):
         value, expected_value = '[hannah]', 'hannah'
         name = StringProperty(
-            sources=['name'],
+            ['name'],
             required=True,
             transforms=[lambda s: s.strip('[]')]
         )
