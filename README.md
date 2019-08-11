@@ -13,3 +13,36 @@ common ones.
 
 And to make a developer job easier it is primarily designed to be used
 in declarative fashion: describe what you want and get it right after.
+
+## Use Cases and Features
+
+Here are examples of the most common use-cases and features: 
+
+### Different property naming
+
+```python
+from data_mapper.mappers import Mapper
+from data_mapper.properties import Property
+
+class PersonMapper(Mapper):
+    first_name = Property('first_name', 'name')
+    last_name = Property('last_name', 'surname')
+
+mapper = PersonMapper()
+
+assert mapper.get({
+    'first_name': 'Ivan', 
+    'surname': 'Bogush',
+}) == {
+    'first_name': 'Ivan', 
+    'last_name': 'Bogush',
+}
+
+assert mapper.get({
+    'name': 'Ivan', 
+    'surname': 'Bogush',
+}) == {
+    'first_name': 'Ivan', 
+    'last_name': 'Bogush',
+}
+```
