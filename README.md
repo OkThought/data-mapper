@@ -18,7 +18,12 @@ in declarative fashion: describe what you want and get it right after.
 
 Here are examples of the most common use-cases and features: 
 
-### Different property naming
+### Different Naming Schemes
+
+This mapper looks for properties `first_name` and `last_name` in the data.
+For property `first_name` it tries to resolve it by the first key 
+`'first_name'`, if not found it tries the second key `'name'`.
+The similar process goes for property `last_name`.
 
 ```python
 from data_mapper.mappers import Mapper
@@ -46,3 +51,9 @@ assert mapper.get({
     'last_name': 'Bogush',
 }
 ```
+
+This use-case has a story :)
+> It was the first issue I wanted to solve in my other project. I had different 
+naming schemes in different data sources, and in my databases. All of them used 
+different names for product categories: 'categories', 'category', 'categoryId'.
+I found it very boring to write repeatable code to convert the same data.
