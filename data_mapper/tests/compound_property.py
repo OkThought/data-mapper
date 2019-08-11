@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from src.properties.compound import CompoundProperty
-from src.properties.string import StringProperty
+from data_mapper.properties.compound import CompoundProperty
+from data_mapper.properties.string import StringProperty
 
 
 class CompoundPropertyTests(TestCase):

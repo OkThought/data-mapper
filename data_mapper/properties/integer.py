@@ -1,4 +1,4 @@
-from src.properties.property import Property
+from data_mapper.properties.property import Property
 
 
 class IntegerProperty(Property):

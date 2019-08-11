@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from src.properties.float import FloatProperty
+from data_mapper.properties.float import FloatProperty
 
 
 class FloatPropertyTests(TestCase):

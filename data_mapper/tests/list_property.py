@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from src.errors import ValidationError
-from src.properties.list import ListProperty
+from data_mapper.errors import ValidationError
+from data_mapper.properties.list import ListProperty
 
 
 class ListPropertyTests(TestCase):

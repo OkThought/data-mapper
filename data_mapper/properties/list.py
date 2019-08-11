@@ -1,8 +1,8 @@
 from typing import Tuple
 
-from src.errors import ValidationError
-from src.properties.property import Property
-from src.utils import NOT_SET
+from data_mapper.errors import ValidationError
+from data_mapper.properties.property import Property
+from data_mapper.utils import NOT_SET
 
 
 class ListProperty(Property):

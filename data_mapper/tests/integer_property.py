@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from src.properties.integer import IntegerProperty
+from data_mapper.properties.integer import IntegerProperty
 
 
 class IntegerPropertyTests(TestCase):

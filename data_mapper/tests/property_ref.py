@@ -1,9 +1,9 @@
 from unittest import TestCase
 
-from src.mappers.mapper import Mapper
-from src.properties.compound import CompoundProperty
-from src.properties.ref import PropertyRef
-from src.properties.string import StringProperty
+from data_mapper.mappers.mapper import Mapper
+from data_mapper.properties.compound import CompoundProperty
+from data_mapper.properties.ref import PropertyRef
+from data_mapper.properties.string import StringProperty
 
 
 class PropertyRefTests(TestCase):

@@ -1,8 +1,8 @@
 from typing import Any, Mapping
 
-from src.mappers.result import MapResult
-from src.properties.abstract import AbstractProperty
-from src.properties.property import Property
+from data_mapper.mappers.result import MapResult
+from data_mapper.properties.abstract import AbstractProperty
+from data_mapper.properties.property import Property
 
 
 class CompoundProperty(Property):

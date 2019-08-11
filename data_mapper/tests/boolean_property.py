@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from src.properties.boolean import BooleanProperty
+from data_mapper.properties.boolean import BooleanProperty
 
 
 class BooleanPropertyTests(TestCase):

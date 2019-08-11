@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from src.mappers.mapper import Mapper
-from src.properties.string import StringProperty
+from data_mapper.mappers.mapper import Mapper
+from data_mapper.properties.string import StringProperty
 
 
 class MapResultTests(TestCase):

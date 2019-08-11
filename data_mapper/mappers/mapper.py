@@ -1,7 +1,7 @@
 from typing import Iterable, Tuple, Any, Mapping
 
-from src.properties.abstract import AbstractProperty
-from src.properties.compound import CompoundProperty
+from data_mapper.properties.abstract import AbstractProperty
+from data_mapper.properties.compound import CompoundProperty
 
 
 class Mapper(CompoundProperty):

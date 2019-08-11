@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from src.properties.property import Property
+from data_mapper.properties.property import Property
 
 
 class PropertyTests(TestCase):

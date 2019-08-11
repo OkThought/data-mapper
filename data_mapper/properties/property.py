@@ -1,8 +1,8 @@
 from typing import Iterable, Callable
 
-from src.errors import PropertyNotFound
-from src.properties.abstract import AbstractProperty
-from src.utils import NOT_SET
+from data_mapper.errors import PropertyNotFound
+from data_mapper.properties.abstract import AbstractProperty
+from data_mapper.utils import NOT_SET
 
 
 class Property(AbstractProperty):

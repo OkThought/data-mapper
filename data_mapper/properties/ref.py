@@ -1,6 +1,6 @@
 from typing import Any, Collection
 
-from src.properties.abstract import AbstractProperty
+from data_mapper.properties.abstract import AbstractProperty
 
 
 class PropertyRef(AbstractProperty):

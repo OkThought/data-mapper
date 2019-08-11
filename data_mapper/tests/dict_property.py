@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from src.properties.dict import DictProperty
+from data_mapper.properties.dict import DictProperty
 
 
 class DictPropertyTests(TestCase):
