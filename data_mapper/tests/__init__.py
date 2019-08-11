@@ -9,3 +9,4 @@ from .integer_property import IntegerPropertyTests
 from .float_property import FloatPropertyTests
 from .boolean_property import BooleanPropertyTests
 from .property import PropertyTests
+from .examples import ExamplesTests
