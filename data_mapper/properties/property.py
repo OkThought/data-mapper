@@ -76,3 +76,10 @@ class Property(AbstractProperty):
                 value = None
 
         return value
+
+    def __str__(self):
+        if self.sources is None:
+            sources_str = str(self.sources)
+        else:
+            sources_str = ",".join(map(repr, self.sources))
+        return f'{self.__class__.__name__}<{sources_str}>'
