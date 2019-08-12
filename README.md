@@ -1,6 +1,8 @@
 # data-mapper
 A declarative data mapper
 
+[![Build Status](https://travis-ci.org/OkThought/data-mapper.svg?branch=master)](https://travis-ci.org/OkThought/data-mapper)
+
 ## Description
 
 Most projects work with different representations of the same data.
