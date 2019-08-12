@@ -11,3 +11,4 @@ from .boolean_property import BooleanPropertyTests
 from .property import PropertyTests
 from .examples import ExamplesTests
 from .property_operation import PropertyOperationTests
+from .value import ValueTests
