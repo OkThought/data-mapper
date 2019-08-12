@@ -7,7 +7,7 @@ setuptools.setup(
     name="data-mapper",
     version="0.0.1",
     author="OkThought",
-    author_email="bogush.vano@gmai.com",
+    author_email="bogush.vano@gmail.com",
     description="A declarative data mapper",
     long_description=long_description,
     long_description_content_type="text/markdown",
