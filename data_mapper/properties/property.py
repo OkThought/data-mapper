@@ -15,7 +15,7 @@ class Property(AbstractProperty):
             self,
             *sources: Iterable,
             default=NOT_SET,
-            required: bool = NOT_SET,
+            required: bool = None,
             transforms: Iterable[Callable[[str], str]] = NOT_SET,
             **kwargs,
     ):
@@ -29,7 +29,7 @@ class Property(AbstractProperty):
         if default is not NOT_SET:
             self.default = default
 
-        if self.required is not NOT_SET:
+        if self.required is not None:
             self.required = required
 
         if transforms is not NOT_SET:

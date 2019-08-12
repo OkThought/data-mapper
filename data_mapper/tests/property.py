@@ -22,3 +22,17 @@ class PropertyTests(TestCase):
         self.assertEqual("Property<'x'>", str(Property('x')))
         self.assertEqual("Property<'x','y'>", str(Property('x', 'y')))
         self.assertEqual('StringProperty<None>', str(StringProperty()))
+
+    def test__default(self):
+        self.assertEqual(1, Property('x', default=1).get({}))
+
+    def test__default_none(self):
+        self.assertEqual(None, Property('x', default=None).get({}))
+
+    def test__default_required(self):
+        with self.assertRaises(AssertionError):
+            Property(default=5, required=True)
+        with self.assertRaises(AssertionError):
+            Property(default=None, required=True)
+        with self.assertRaises(AssertionError):
+            Property(default=0, required=True)
