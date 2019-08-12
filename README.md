@@ -1,7 +1,8 @@
 # data-mapper
 A declarative data mapper
 
-[![Build Status](https://travis-ci.org/OkThought/data-mapper.svg?branch=master)](https://travis-ci.org/OkThought/data-mapper)
+![PyPI](https://img.shields.io/pypi/v/data-mapper?style=for-the-badge)
+![Travis (.org) branch](https://img.shields.io/travis/OkThought/data-mapper/master?style=for-the-badge)
 
 ## Description
 
