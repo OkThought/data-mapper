@@ -1,0 +1,18 @@
+language: python
+python:
+  - '3.7'
+  - '3.6'
+
+script: python -m unittest data_mapper.tests
+
+deploy:
+  provider: pypi
+  distributions: sdist bdist_wheel
+  user: OkThought
+  password:
+    secure: "Ty4kdT2g4OktNgqHSSTc62BF+sTOsiux5uMGoV3pF4v1B1PS6utVLmP34lfvTmX6Ti1PtmcjplUs4PP73eyHtMWuFOZb5YgaI2U1f8C5XTgyjrQW5oZFo3OHNqX0A2815b7ROxzlAFMw06z7YHmaTyWPVRohu08XvkazTHiHI3KMaYgNATDz5Fc0ZhHqfn7aMYkhl3lu6KxUqYF1Q6uF5a+FjDv+r/EOHgJ3kxvkSQwxS+jUKKVWQrA5ARn2dXaKuWZur4DlGf46JpTgRUf8sfSGfOUvC0tq+8wZE/2hR22RZVjzfHvzqLx7mgoSultgBDLkt1SLQkXA8oaf2nh1oxhir24KKSd833dKBkU4wo67oHVDmdif4dntirR8bz5FQQwAxyz/3pmP+Tc4fdGjP0zfngWuewKI+nX2/ilPuly032LgqI8mgCLQf64O2InglkQdgrtyQ1ZwJ7YNsvKfNImSeNeRsAB60gQiQGPxXnu358w6wVLsQV1dep7s1zVNVBdvqaae4j942Kjpb81WxokwK1/rOEcxzepwh8Yu+L08ZXk109jDOsZinTmCdoVDl+MfYLa5AZw/PzX8OWgEkoWL5QZplYXkeK2eyA2xpu1ynJIKBD5OdUxInxhANVBUcNmxIFjFbmKRNCV0LOWFkGIeMPWfCzINfYaKLGo70Bk="
+  on:
+    all_branches: false
+    tags: true
+    repo: OkThought/data-mapper
+    python: '3.6'
