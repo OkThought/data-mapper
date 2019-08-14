@@ -36,7 +36,7 @@ class ExamplesTests(TestCase):
             StringProperty('first_name'),
             StringProperty('middle_name', required=False),
             StringProperty('last_name'),
-            func=lambda *args: ' '.join(filter(None, args)),
+            func=lambda args: ' '.join(filter(None, args)),
         )
 
         self.assertEqual(

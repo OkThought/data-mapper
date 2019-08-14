@@ -6,7 +6,7 @@ from data_mapper.properties.string import StringProperty
 
 class PropertyOperationTests(TestCase):
     def test__count_not_none(self):
-        def count_not_none(*args):
+        def count_not_none(args):
             return sum(1 for a in args if a is not None)
 
         prop = Operation(func=count_not_none)
@@ -21,7 +21,7 @@ class PropertyOperationTests(TestCase):
         self.assertEqual(0, prop.get({}))
 
     def test__date_format(self):
-        def dot_join(*args):
+        def dot_join(args):
             return '.'.join(args)
 
         prop = Operation(
