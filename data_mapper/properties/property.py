@@ -6,11 +6,6 @@ from data_mapper.utils import NOT_SET
 
 
 class Property(AbstractProperty):
-    required = True
-    default = NOT_SET
-    sources = None
-    transforms = []
-
     def __init__(
             self,
             *sources,
@@ -28,18 +23,14 @@ class Property(AbstractProperty):
 
         if len(sources) > 0:
             self.sources = sources
-
-        if sources_it is not None:
+        elif sources_it is not None:
             self.sources = sources_it
+        else:
+            self.sources = None
 
-        if default is not NOT_SET:
-            self.default = default
-
-        if self.required is not None:
-            self.required = required
-
-        if transforms is not None:
-            self.transforms = transforms
+        self.default = default
+        self.required = True if required is None else required
+        self.transforms = [] if transforms is None else transforms
 
     def get(self, data, result=None):
         value = self.get_raw(data, result)
