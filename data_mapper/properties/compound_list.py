@@ -9,7 +9,7 @@ class CompoundListProperty(Operation):
             self,
             *args,
             allowed_sizes=None,
-            skip_none: bool = True,
+            skip_none: bool = False,
             **kwargs,
     ):
         super().__init__(*args, **kwargs)

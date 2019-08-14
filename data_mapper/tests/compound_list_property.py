@@ -19,6 +19,7 @@ class CompoundListPropertyTests(TestCase):
             Property('y', required=False),
             Property('z', required=False),
             allowed_sizes=range(2, 4),
+            skip_none=True,
         )
 
         with self.assertRaises(ValidationError):
