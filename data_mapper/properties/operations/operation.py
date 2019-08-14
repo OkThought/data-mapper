@@ -11,9 +11,11 @@ class Operation(Property):
 
     def __init__(
             self,
-            *props: Property or Iterable[AbstractProperty],
-            func: Callable = None,
+            *props: AbstractProperty or Iterable[AbstractProperty],
+            props_it: (Iterable[AbstractProperty] or
+                       Iterable[Iterable[AbstractProperty]]) = None,
             star_func: Callable = None,
+            func: Callable = None,
             **kwargs,
     ):
         assert star_func is None or func is None
@@ -23,7 +25,8 @@ class Operation(Property):
 
         if func is not None:
             self.func = func
-        super().__init__(*props, **kwargs)
+
+        super().__init__(*props, sources_it=props_it, **kwargs)
 
     def apply(self, *args):
         if self.star_func is not None:

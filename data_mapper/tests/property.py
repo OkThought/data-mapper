@@ -39,6 +39,15 @@ class PropertyTests(TestCase):
         with self.assertRaises(AssertionError):
             Property(default=0, required=True)
 
+    def test__sources_it(self):
+        with self.assertRaises(AssertionError):
+            Property('x', sources_it=('x',))
+        prop = Property(sources_it=range(6))
+        self.assertEqual(3, prop.get({i: i for i in range(3, 6)}))
+        self.assertEqual(2, prop.get({i: i for i in range(2, 6)}))
+        self.assertEqual(1, prop.get({i: i for i in range(1, 6)}))
+        self.assertEqual(0, prop.get({i: i for i in range(0, 6)}))
+
     def test__add(self):
         prop = Property('x') + Property('y')
         self.assertEqual(3, prop.get(dict(x=1, y=2)))

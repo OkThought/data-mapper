@@ -14,17 +14,23 @@ class Property(AbstractProperty):
     def __init__(
             self,
             *sources,
+            sources_it: Iterable = None,
             default=NOT_SET,
             required: bool = None,
-            transforms: Iterable[Callable[[str], str]] = NOT_SET,
+            transforms: Iterable[Callable[[str], str]] = None,
             **kwargs,
     ):
+        assert not sources or not sources_it, \
+            '*sources and sources_it are exclusive'
         assert default is NOT_SET or not required
 
         super().__init__(**kwargs)
 
         if len(sources) > 0:
-            self.sources = list(sources)
+            self.sources = sources
+
+        if sources_it is not None:
+            self.sources = sources_it
 
         if default is not NOT_SET:
             self.default = default
@@ -32,7 +38,7 @@ class Property(AbstractProperty):
         if self.required is not None:
             self.required = required
 
-        if transforms is not NOT_SET:
+        if transforms is not None:
             self.transforms = transforms
 
     def get(self, data, result=None):
@@ -58,7 +64,7 @@ class Property(AbstractProperty):
         for source in sources:
             value = data
             try:
-                if isinstance(source, str):
+                if isinstance(source, str) or not hasattr(source, '__iter__'):
                     value = value[source]
                 else:
                     for sub_source in source:
