@@ -60,3 +60,32 @@ This use-case has a story :)
 naming schemes in different data sources, and in my databases. All of them used 
 different names for product categories: 'categories', 'category', 'categoryId'.
 I found it very boring to write repeatable code to convert the same data.
+
+### Arbitrary operations on resolved values
+
+#### Full Name String Construction
+This one resolves properties `first_name`, `middle_name` [optionally] and 
+`last_name` and combines them into a single string — `full_name`.
+
+```python
+from data_mapper.properties.operations import Operation
+from data_mapper.properties.string import StringProperty
+
+full_name = Operation(
+    StringProperty('first_name'),
+    StringProperty('middle_name', required=False),
+    StringProperty('last_name'),
+    func=lambda *args: ' '.join(filter(None, args)),
+)
+
+assert 'Anton Pavlovich Chekhov' == full_name.get(dict(
+    first_name='Anton',
+    middle_name='Pavlovich',
+    last_name='Chekhov',
+))
+
+assert 'Anton Chekhov' == full_name.get(dict(
+    first_name='Anton',
+    last_name='Chekhov',
+))
+```
