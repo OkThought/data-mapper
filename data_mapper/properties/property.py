@@ -13,7 +13,7 @@ class Property(AbstractProperty):
 
     def __init__(
             self,
-            *sources: Iterable,
+            *sources,
             default=NOT_SET,
             required: bool = None,
             transforms: Iterable[Callable[[str], str]] = NOT_SET,
@@ -83,3 +83,19 @@ class Property(AbstractProperty):
         else:
             sources_str = ",".join(map(repr, self.sources))
         return f'{self.__class__.__name__}<{sources_str}>'
+
+    def __sub__(self, other):
+        from data_mapper.properties.operations.sub import Sub
+        return Sub(self, other)
+
+    def __add__(self, other):
+        from data_mapper.properties.operations.add import Add
+        return Add(self, other)
+
+    def __mul__(self, other):
+        from data_mapper.properties.operations.mul import Mul
+        return Mul(self, other)
+
+    def __truediv__(self, other):
+        from data_mapper.properties.operations.div import Div
+        return Div(self, other)

@@ -36,3 +36,19 @@ class PropertyTests(TestCase):
             Property(default=None, required=True)
         with self.assertRaises(AssertionError):
             Property(default=0, required=True)
+
+    def test__add(self):
+        prop = Property('x') + Property('y')
+        self.assertEqual(3, prop.get(dict(x=1, y=2)))
+
+    def test__sub(self):
+        prop = Property('x') - Property('y')
+        self.assertEqual(-1, prop.get(dict(x=1, y=2)))
+
+    def test__mul(self):
+        prop = Property('x') * Property('y')
+        self.assertEqual(4, prop.get(dict(x=2, y=2)))
+
+    def test__div(self):
+        prop = Property('x') / Property('y')
+        self.assertEqual(2.5, prop.get(dict(x=5, y=2)))
