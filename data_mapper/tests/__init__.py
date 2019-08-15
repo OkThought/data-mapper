@@ -13,3 +13,4 @@ from .examples import ExamplesTests
 from .property_operation import PropertyOperationTests
 from .value import ValueTests
 from .compound_list_property import CompoundListPropertyTests
+from .object import ObjectPropertyTests
