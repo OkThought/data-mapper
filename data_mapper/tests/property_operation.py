@@ -1,5 +1,6 @@
 from unittest import TestCase
 
+from data_mapper.properties import Property
 from data_mapper.properties.operations.operation import Operation
 from data_mapper.properties.string import StringProperty
 
@@ -32,3 +33,19 @@ class PropertyOperationTests(TestCase):
         )
         data = {'month': 8, 'day': 12}
         self.assertEqual('2019.8.12', prop.get(data))
+
+    def test__get_value__set_in_parent(self):
+        prop = Operation(
+            Property('x'),
+            star_func=lambda x: x,
+            get_value=lambda *_: 'foo',
+        )
+        self.assertEqual('foo', prop.get_raw(dict(x=5)))
+
+    def test__get_value__set_in_grand_parent(self):
+        prop = Operation(
+            Operation(Property('x'), star_func=lambda x: x),
+            star_func=lambda x: x,
+            get_value=lambda *_: 'foo',
+        )
+        self.assertEqual('foo', prop.get_raw(dict(x=5)))

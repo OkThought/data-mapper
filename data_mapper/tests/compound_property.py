@@ -1,5 +1,6 @@
 from unittest import TestCase
 
+from data_mapper.properties import Property
 from data_mapper.properties.compound import CompoundProperty
 from data_mapper.properties.string import StringProperty
 
@@ -38,3 +39,19 @@ class CompoundPropertyTests(TestCase):
             dict(first_name=first_name, last_name=last_name),
             prop.get(data=dict(first_name=first_name, last_name=last_name)),
         )
+
+    def test__get_value__set_in_parent(self):
+        prop = CompoundProperty(
+            dict(get_value=lambda *_: 'foo'),
+            x=Property(),
+        )
+        self.assertEqual('foo', prop.get(dict(x=5))['x'])
+
+    def test__get_value__set_in_grand_parent(self):
+        prop = CompoundProperty(
+            dict(get_value=lambda *_: 'foo'),
+            y=CompoundProperty(
+                x=Property(),
+            ),
+        )
+        self.assertEqual('foo', prop.get(dict(x=5))['y']['x'])

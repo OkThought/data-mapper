@@ -29,3 +29,17 @@ class CompoundListPropertyTests(TestCase):
         self.assertEqual([1, 2, 3], prop.get(dict(x=1, y=2, z=3)))
         self.assertEqual([1, 2], prop.get(dict(x=1, y=2)))
         self.assertEqual([1, 2], prop.get(dict(x=1, z=2)))
+
+    def test__get_value__set_in_parent(self):
+        prop = CompoundListProperty(
+            Property('x'),
+            get_value=lambda *_: 'foo',
+        )
+        self.assertEqual(['foo'], prop.get(dict(x=5)))
+
+    def test__get_value__set_in_grand_parent(self):
+        prop = CompoundListProperty(
+            CompoundListProperty(Property('x')),
+            get_value=lambda *_: 'foo',
+        )
+        self.assertEqual([['foo']], prop.get(dict(x=5)))

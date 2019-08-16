@@ -1,9 +1,11 @@
 from unittest import TestCase
 
+from data_mapper.errors import PropertyNotFound
 from data_mapper.properties.integer import IntegerProperty
 from data_mapper.properties.operations.sum import Sum
 from data_mapper.properties.property import Property
 from data_mapper.properties.string import StringProperty
+from data_mapper.tests.test_utils import Person
 
 
 class PropertyTests(TestCase):
@@ -71,3 +73,28 @@ class PropertyTests(TestCase):
         self.assertEqual(6, prop.get(dict(x=1, y=2, z=3)))
         self.assertEqual(3, prop.get(dict(x=1, y=2)))
         self.assertEqual(3, prop.get(dict(x=1, y=2.5)))
+
+    def test__get_value__from_object(self):
+        first, middle, last = 'Alexander Sergeyevich Pushkin'.split()
+        pushkin = Person(1799, first, last, middle)
+
+        prop = IntegerProperty(
+            'id', get_value=getattr, get_value_exc=AttributeError)
+        self.assertEqual(1799, prop.get(pushkin))
+
+        prop = StringProperty(
+            'first_name', get_value=getattr, get_value_exc=AttributeError)
+        self.assertEqual(first, prop.get(pushkin))
+
+        prop = StringProperty(
+            'middle_name', get_value=getattr, get_value_exc=AttributeError)
+        self.assertEqual(middle, prop.get(pushkin))
+
+        prop = StringProperty(
+            'last_name', get_value=getattr, get_value_exc=AttributeError)
+        self.assertEqual(last, prop.get(pushkin))
+
+        prop = StringProperty(
+            'unknown', get_value=getattr, get_value_exc=AttributeError)
+        with self.assertRaises(PropertyNotFound):
+            prop.get(pushkin)

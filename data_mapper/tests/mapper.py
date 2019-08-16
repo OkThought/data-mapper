@@ -1,6 +1,7 @@
 from unittest import TestCase
 
 from data_mapper.mappers.mapper import Mapper
+from data_mapper.properties import Property
 from data_mapper.properties.string import StringProperty
 
 
@@ -37,3 +38,19 @@ class MapperTests(TestCase):
                 ),
             )),
         )
+
+    def test__get_value__set_in_parent(self):
+        prop = Mapper(
+            dict(get_value=lambda *_: 'foo'),
+            x=Property(),
+        )
+        self.assertEqual('foo', prop.get(dict(x=5))['x'])
+
+    def test__get_value__set_in_grand_parent(self):
+        prop = Mapper(
+            dict(get_value=lambda *_: 'foo'),
+            y=Mapper(
+                x=Property(),
+            ),
+        )
+        self.assertEqual('foo', prop.get(dict(x=5))['y']['x'])

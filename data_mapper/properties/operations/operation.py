@@ -6,8 +6,7 @@ from data_mapper.properties.abstract import AbstractProperty
 
 
 class Operation(Property):
-    star_func = None
-    func = None
+    default_sources = []
 
     def __init__(
             self,
@@ -18,15 +17,30 @@ class Operation(Property):
             func: Callable = None,
             **kwargs,
     ):
-        assert star_func is None or func is None
-
-        if star_func is not None:
+        if not hasattr(self, 'star_func'):
             self.star_func = star_func
 
-        if func is not None:
+        if not hasattr(self, 'func'):
             self.func = func
 
+        assert self.star_func is None or self.func is None, \
+            'star_func and func exclusive'
+
         super().__init__(*props, sources_it=props_it, **kwargs)
+
+        self.configure_props()
+
+    def configure_props(self):
+        for source in self.get_sources():
+            if isinstance(source, AbstractProperty):
+                self.configure_prop(source)
+            else:
+                for prop in source:
+                    self.configure_prop(prop)
+
+    def configure_prop(self, prop):
+        if isinstance(prop, Property):
+            prop.parent = self
 
     def apply(self, *args):
         if self.star_func is not None:
@@ -39,11 +53,7 @@ class Operation(Property):
         return self.apply(*self.get_args(data, result))
 
     def get_args(self, data, result=None):
-        sources = self.sources
-        if sources is None:
-            sources = []
-
-        for props in sources:
+        for props in self.get_sources():
             if isinstance(props, AbstractProperty):
                 yield props.get(data, result)
             else:

@@ -20,14 +20,14 @@ class CompoundProperty(Property):
         sources = _options.pop('sources')
         super().__init__(sources_it=sources, **_options)
         self.props_map = props_map
-        self.configure_props_map(props_map)
+        self.configure_props(props_map)
 
-    def configure_props_map(self, props_map):
+    def configure_props(self, props_map):
         for key, prop in props_map.items():
-            self.configure_prop_sources(prop, key)
+            self.configure_prop(prop, key)
 
-    @staticmethod
-    def configure_prop_sources(prop, key):
+    def configure_prop(self, prop, key):
+        prop.parent = self
         if getattr(prop, 'sources', 0) is None:
             prop.sources = [key]
 

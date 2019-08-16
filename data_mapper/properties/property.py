@@ -6,6 +6,9 @@ from data_mapper.utils import NOT_SET
 
 
 class Property(AbstractProperty):
+    default_sources = [[]]
+    get_value_exc_default = (LookupError, AttributeError)
+
     def __init__(
             self,
             *sources,
@@ -13,6 +16,8 @@ class Property(AbstractProperty):
             default=NOT_SET,
             required: bool = None,
             transforms: Iterable[Callable[[str], str]] = None,
+            get_value: Callable = None,
+            get_value_exc=None,
             **kwargs,
     ):
         assert not sources or not sources_it, \
@@ -31,6 +36,9 @@ class Property(AbstractProperty):
         self.default = default
         self.required = True if required is None else required
         self.transforms = [] if transforms is None else transforms
+        self._get_value = get_value
+        self._get_value_exc = get_value_exc
+        self.parent = None
 
     def get(self, data, result=None):
         value = self.get_raw(data, result)
@@ -48,19 +56,17 @@ class Property(AbstractProperty):
         return self.transforms
 
     def get_raw(self, data, result=None):
-        sources = self.sources
-        if sources is None:
-            sources = [[]]
+        sources = self.get_sources()
 
         for source in sources:
             value = data
             try:
                 if isinstance(source, str) or not hasattr(source, '__iter__'):
-                    value = value[source]
+                    value = self.get_value(value, source)
                 else:
                     for sub_source in source:
-                        value = value[sub_source]
-            except KeyError:
+                        value = self.get_value(value, sub_source)
+            except self.get_value_exc:
                 continue
             else:
                 break
@@ -73,6 +79,36 @@ class Property(AbstractProperty):
                 value = None
 
         return value
+
+    def get_sources(self):
+        return self.default_sources if self.sources is None else self.sources
+
+    @property
+    def get_value(self):
+        get_value = self._get_value
+        if get_value is None and self.parent is not None:
+            get_value = self.parent.get_value
+        if get_value is None:
+            get_value = self.get_value_default
+        return get_value
+
+    @staticmethod
+    def get_value_default(d, k):
+        try:
+            return d[k]
+        except (LookupError, TypeError) as e:
+            if isinstance(k, str):
+                return getattr(d, k)
+            raise e
+
+    @property
+    def get_value_exc(self):
+        get_value_exc = self._get_value_exc
+        if get_value_exc is None and self.parent is not None:
+            get_value_exc = self.parent.get_value_exc
+        if get_value_exc is None:
+            get_value_exc = self.get_value_exc_default
+        return get_value_exc
 
     def __str__(self):
         if self.sources is None:

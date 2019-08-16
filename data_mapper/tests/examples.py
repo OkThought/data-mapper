@@ -1,5 +1,7 @@
+from datetime import date
 from unittest import TestCase
 
+from data_mapper.mappers import Mapper
 from data_mapper.mappers.object import ObjectMapper
 from data_mapper.properties.compound import CompoundProperty
 from data_mapper.properties.compound_list import CompoundListProperty
@@ -115,3 +117,17 @@ class ExamplesTests(TestCase):
         assert person.first_name == first
         assert person.middle_name == middle
         assert person.last_name == last
+
+    def test__object_to_dict(self):
+        mapper = Mapper(
+            year=IntegerProperty(),
+            month=IntegerProperty(),
+            day=IntegerProperty(),
+        )
+
+        d = date(year=1997, month=4, day=12)
+        value = mapper.get(d)
+        self.assertEqual(
+            dict(year=d.year, month=d.month, day=d.day),
+            dict(value),
+        )
