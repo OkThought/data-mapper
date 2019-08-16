@@ -18,7 +18,7 @@ class MapperTests(TestCase):
             last_name = StringProperty('last_name', 'surname', 'family_name')
 
         class Person(Mapper):
-            id = PersonId()
+            id = PersonId(dict(sources=None))
 
         person = Person()
         first_name = 'Bob'

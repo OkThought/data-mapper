@@ -1,44 +1,29 @@
 from unittest import TestCase
 
 from data_mapper.mappers.object import ObjectMapper
+from data_mapper.properties.compound import CompoundProperty
 from data_mapper.properties.compound_list import CompoundListProperty
 from data_mapper.properties.integer import IntegerProperty
 from data_mapper.properties.string import StringProperty
-
-
-class Person:
-    def __init__(
-            self,
-            id_: int,
-            first_name: str,
-            last_name: str,
-            middle_name: str = None,
-    ):
-        self.id = id_
-        self.first_name = first_name
-        self.last_name = last_name
-        self.middle_name = middle_name
-
-    def __eq__(self, other):
-        return (
-                isinstance(other, Person) and
-                self.id == other.id and
-                self.first_name == other.first_name and
-                self.last_name == other.last_name and
-                self.middle_name == other.middle_name
-        )
+from data_mapper.tests.test_utils import Person
 
 
 class ObjectPropertyTests(TestCase):
     dostoevsky = Person(0, 'Fyodor', 'Dostoevsky', 'Mikhailovich')
+    dostoevsky_no_middle_name = Person(0, 'Fyodor', 'Dostoevsky')
     dostoevsky_dict = dict(
         id=dostoevsky.id,
         first_name=dostoevsky.first_name,
         middle_name=dostoevsky.middle_name,
         last_name=dostoevsky.last_name,
     )
+    dostoevsky_no_middle_name_dict = dict(
+        id=dostoevsky.id,
+        first_name=dostoevsky.first_name,
+        last_name=dostoevsky.last_name,
+    )
 
-    def test__subclass(self):
+    def test__subclass__args(self):
         class PersonMapper(ObjectMapper):
             init = Person
             args = CompoundListProperty(
@@ -54,8 +39,33 @@ class ObjectPropertyTests(TestCase):
             self.dostoevsky,
             PersonMapper().get(self.dostoevsky_dict)
         )
+        self.assertEqual(
+            self.dostoevsky_no_middle_name,
+            PersonMapper().get(self.dostoevsky_no_middle_name_dict)
+        )
 
-    def test__init(self):
+    def test__subclass__args_kwargs(self):
+        class PersonMapper(ObjectMapper):
+            init = Person
+            args = CompoundListProperty(
+                IntegerProperty('id'),
+                StringProperty('first_name'),
+                StringProperty('last_name'),
+            )
+            kwargs = CompoundProperty(
+                middle_name=StringProperty(required=False),
+            )
+
+        self.assertEqual(
+            self.dostoevsky,
+            PersonMapper().get(self.dostoevsky_dict)
+        )
+        self.assertEqual(
+            self.dostoevsky_no_middle_name,
+            PersonMapper().get(self.dostoevsky_no_middle_name_dict)
+        )
+
+    def test__init__args(self):
         person_mapper = ObjectMapper(
             init=Person,
             args=CompoundListProperty(
@@ -70,4 +80,30 @@ class ObjectPropertyTests(TestCase):
         self.assertEqual(
             self.dostoevsky,
             person_mapper.get(self.dostoevsky_dict)
+        )
+        self.assertEqual(
+            self.dostoevsky_no_middle_name,
+            person_mapper.get(self.dostoevsky_no_middle_name_dict)
+        )
+
+    def test__init__args_kwargs(self):
+        person_mapper = ObjectMapper(
+            init=Person,
+            args=CompoundListProperty(
+                IntegerProperty('id'),
+                StringProperty('first_name'),
+                StringProperty('last_name'),
+            ),
+            kwargs=CompoundProperty(
+                middle_name=StringProperty(required=False),
+            ),
+        )
+
+        self.assertEqual(
+            self.dostoevsky,
+            person_mapper.get(self.dostoevsky_dict)
+        )
+        self.assertEqual(
+            self.dostoevsky_no_middle_name,
+            person_mapper.get(self.dostoevsky_no_middle_name_dict)
         )

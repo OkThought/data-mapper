@@ -23,10 +23,10 @@ class PropertyRefTests(TestCase):
 
     def test__deep_source(self):
         class MyMapper(Mapper):
-            full_name = CompoundProperty((), props_map=dict(
+            full_name = CompoundProperty(
                 first_name=StringProperty(['name']),
                 last_name=StringProperty(['surname']),
-            ))
+            )
             first_name = PropertyRef(['full_name', 'first_name'])
         mapper = MyMapper()
         name, surname = 'Peter Pan'.split()
