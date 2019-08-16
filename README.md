@@ -89,3 +89,97 @@ assert 'Anton Chekhov' == full_name.get(dict(
     last_name='Chekhov',
 ))
 ```
+
+### Object mapping
+
+#### Dict to *Object*
+
+Let's assume we have a class `Person`:
+```python
+class Person:
+    def __init__(
+            self,
+            id_: int,
+            first_name: str,
+            last_name: str,
+            middle_name: str = None,
+    ):
+        self.id = id_
+        self.first_name = first_name
+        self.last_name = last_name
+        self.middle_name = middle_name
+```
+
+A mapper from dict with corresponding keys to an instance of class `Person` 
+could be defined by subclassing `ObjectMapper`:
+
+```python
+from data_mapper.mappers.object import ObjectMapper
+from data_mapper.properties.compound import CompoundProperty
+from data_mapper.properties.compound_list import CompoundListProperty
+from data_mapper.properties.integer import IntegerProperty
+from data_mapper.properties.string import StringProperty
+
+
+class PersonMapper(ObjectMapper):
+    init = Person
+    args = CompoundListProperty(
+        IntegerProperty('id'),
+        StringProperty('first_name'),
+        StringProperty('last_name'),
+    )
+    kwargs = CompoundProperty(
+        middle_name=StringProperty(required=False),
+    )
+
+first, middle, last = 'Iosif Aleksandrovich Brodsky'.split()
+person = PersonMapper().get(dict(
+    id=1940,
+    first_name=first,
+    middle_name=middle,
+    last_name=last,
+))
+
+assert isinstance(person, Person)
+assert person.id == 1940
+assert person.first_name == first
+assert person.middle_name == middle
+assert person.last_name == last
+```
+
+Exactly the same can be done by instantiating the `ObjectMapper`:
+
+```python
+from data_mapper.mappers.object import ObjectMapper
+from data_mapper.properties.compound import CompoundProperty
+from data_mapper.properties.compound_list import CompoundListProperty
+from data_mapper.properties.integer import IntegerProperty
+from data_mapper.properties.string import StringProperty
+
+
+mapper = ObjectMapper(
+    init=Person,
+    args=CompoundListProperty(
+        IntegerProperty('id'),
+        StringProperty('first_name'),
+        StringProperty('last_name'),
+    ),
+    kwargs=CompoundProperty(
+        middle_name=StringProperty(required=False),
+    ),
+)
+
+first, middle, last = 'Iosif Aleksandrovich Brodsky'.split()
+person = mapper.get(dict(
+    id=1940,
+    first_name=first,
+    middle_name=middle,
+    last_name=last,
+))
+
+assert isinstance(person, Person)
+assert person.id == 1940
+assert person.first_name == first
+assert person.middle_name == middle
+assert person.last_name == last
+```
