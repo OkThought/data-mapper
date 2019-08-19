@@ -5,6 +5,10 @@ from data_mapper.properties.list import ListProperty
 
 
 class ListPropertyTests(TestCase):
+    def _test(self, prop, data, expected):
+        result = prop.get(data)
+        self.assertEqual(expected, result)
+
     def test__empty(self):
         prop = ListProperty(['x'])
         self.assertEqual(prop.get(dict(x=[])), [])
@@ -39,3 +43,15 @@ class ListPropertyTests(TestCase):
             prop.get(dict(x=[1., 2., 3]))
 
         prop.get(dict(x=[1., 2., 3.]))
+
+    def test__none(self):
+        self._test(
+            prop=ListProperty('x', required=False),
+            data=dict(x=None),
+            expected=None,
+        )
+        self._test(
+            prop=ListProperty('x', required=False),
+            data=dict(),
+            expected=None,
+        )

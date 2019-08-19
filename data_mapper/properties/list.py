@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Tuple, Optional
 
 from data_mapper.errors import ValidationError
 from data_mapper.properties.property import Property
@@ -10,8 +10,11 @@ class ListProperty(Property):
         super().__init__(*args, **kwargs)
         self.allowed_types = allowed_types
 
-    def get_raw(self, data: dict, result=None):
-        return list(super().get_raw(data, result))
+    def get_raw(self, data: dict, result=None) -> Optional[list]:
+        value = super().get_raw(data, result)
+        if value is not None:
+            value = list(value)
+        return value
 
     def transform(self, value):
         return super().transform(value)
