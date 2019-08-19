@@ -94,3 +94,15 @@ class BooleanPropertyTests(TestCase):
             data=dict(x='no'),
             expected=False,
         )
+
+    def test__default(self):
+        self._test(
+            prop=BooleanProperty('x', default=True),
+            data=dict(),
+            expected=True,
+        )
+        self._test(
+            prop=BooleanProperty('x', default=False),
+            data=dict(),
+            expected=False,
+        )
