@@ -2,8 +2,6 @@ from data_mapper.properties.property import Property
 
 
 class BooleanProperty(Property):
-    bool_fn = bool
-
     def __init__(
             self,
             *args,
@@ -19,12 +17,15 @@ class BooleanProperty(Property):
 
         super().__init__(*args, **kwargs)
 
-        if bool_fn is not None:
-            self.bool_fn = bool_fn
-        if true_values is not None:
-            self.bool_fn = lambda v: v in true_values
-        if false_values is not None:
-            self.bool_fn = lambda v: v not in false_values
+        if not hasattr(self, 'bool_fn'):
+            if bool_fn is not None:
+                self.bool_fn = bool_fn
+            elif true_values is not None:
+                self.bool_fn = lambda v: v in true_values
+            elif false_values is not None:
+                self.bool_fn = lambda v: v not in false_values
+            else:
+                self.bool_fn = bool
 
     def get(self, data: dict, result=None):
         return self.bool_fn(super().get(data, result))
