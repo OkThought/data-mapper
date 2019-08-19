@@ -28,3 +28,15 @@ class FloatPropertyTests(TestCase):
             data=dict(x=1.1),
             expected=1.1,
         )
+
+    def test__none(self):
+        self._test(
+            prop=FloatProperty('x', required=False),
+            data=dict(x=None),
+            expected=None,
+        )
+        self._test(
+            prop=FloatProperty('x', required=False),
+            data=dict(),
+            expected=None,
+        )
