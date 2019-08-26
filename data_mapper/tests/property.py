@@ -5,6 +5,7 @@ from data_mapper.properties.integer import IntegerProperty
 from data_mapper.properties.operations.sum import Sum
 from data_mapper.properties.property import Property
 from data_mapper.properties.string import StringProperty
+from data_mapper.properties.value import Value
 from data_mapper.tests.test_utils import Person
 
 
@@ -49,6 +50,15 @@ class PropertyTests(TestCase):
         self.assertEqual(2, prop.get({i: i for i in range(2, 6)}))
         self.assertEqual(1, prop.get({i: i for i in range(1, 6)}))
         self.assertEqual(0, prop.get({i: i for i in range(0, 6)}))
+
+    def test__sources__property(self):
+        self.assertEqual(1, Property(Value(1)).get({}))
+
+    def test__sources__properties(self):
+        self.assertEqual(1, Property(Property('x'), Value(1)).get({}))
+
+    def test__sources__properties__nested(self):
+        self.assertEqual(1, Property([Value(dict(x=1)), Property('x')]).get({}))
 
     def test__add(self):
         prop = Property('x') + Property('y')

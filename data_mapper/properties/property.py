@@ -61,11 +61,16 @@ class Property(AbstractProperty):
         for source in sources:
             value = data
             try:
-                if isinstance(source, str) or not hasattr(source, '__iter__'):
+                if isinstance(source, AbstractProperty):
+                    value = source.get(value)
+                elif isinstance(source, str) or not hasattr(source, '__iter__'):
                     value = self.get_value(value, source)
                 else:
                     for sub_source in source:
-                        value = self.get_value(value, sub_source)
+                        if isinstance(sub_source, AbstractProperty):
+                            value = sub_source.get(value)
+                        else:
+                            value = self.get_value(value, sub_source)
             except self.get_value_exc:
                 continue
             else:
