@@ -54,6 +54,10 @@ class PropertyTests(TestCase):
     def test__sources__property(self):
         self.assertEqual(1, Property(Value(1)).get({}))
 
+    def test__sources__property__not_found(self):
+        with self.assertRaises(PropertyNotFound):
+            Property(Property('x')).get({})
+
     def test__sources__properties(self):
         self.assertEqual(1, Property(Property('x'), Value(1)).get({}))
 
