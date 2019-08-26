@@ -1,5 +1,3 @@
-from typing import Iterable, Callable
-
 from data_mapper.properties import Property
 
 
@@ -10,6 +8,9 @@ class Value(Property):
 
     def get_raw(self, data, result=None):
         return self.value
+
+    def __str__(self):
+        return f'Value({self.value})'
 
 
 V = Value
