@@ -36,5 +36,6 @@ class CompoundProperty(Property):
             self.props_map,
             data=super().get_raw(data, result),
             lazy=self.lazy,
+            result=result,
         )
         return result
