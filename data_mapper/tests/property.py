@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from data_mapper.errors import PropertyNotFound
 from data_mapper.properties.integer import IntegerProperty
-from data_mapper.properties.operations.sum import Sum
+from data_mapper.properties.functional.sum import Sum
 from data_mapper.properties.property import Property
 from data_mapper.properties.string import StringProperty
 from data_mapper.properties.value import Value

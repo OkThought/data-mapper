@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from data_mapper.properties import Property
-from data_mapper.properties.operations.operation import Operation
+from data_mapper.properties.functional.operation import Operation
 from data_mapper.properties.string import StringProperty
 
 

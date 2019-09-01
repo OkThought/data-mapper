@@ -68,8 +68,8 @@ This one resolves properties `first_name`, `middle_name` [optionally] and
 `last_name` and combines them into a single string — `full_name`.
 
 ```python
-from data_mapper.properties.operations import Operation
-from data_mapper.properties.string import StringProperty
+from data_mapper.properties.functional import Operation
+from data_mapper.properties import StringProperty
 
 full_name = Operation(
     StringProperty('first_name'),
@@ -115,10 +115,9 @@ could be defined by subclassing `ObjectMapper`:
 
 ```python
 from data_mapper.mappers.object import ObjectMapper
-from data_mapper.properties.compound import CompoundProperty
-from data_mapper.properties.compound_list import CompoundListProperty
-from data_mapper.properties.integer import IntegerProperty
-from data_mapper.properties.string import StringProperty
+from data_mapper.properties import (
+    CompoundProperty, CompoundListProperty, IntegerProperty, StringProperty,
+)
 
 
 class PersonMapper(ObjectMapper):
@@ -151,10 +150,9 @@ Exactly the same can be done by instantiating the `ObjectMapper`:
 
 ```python
 from data_mapper.mappers.object import ObjectMapper
-from data_mapper.properties.compound import CompoundProperty
-from data_mapper.properties.compound_list import CompoundListProperty
-from data_mapper.properties.integer import IntegerProperty
-from data_mapper.properties.string import StringProperty
+from data_mapper.properties import (
+    CompoundProperty, CompoundListProperty, IntegerProperty, StringProperty,
+)
 
 
 mapper = ObjectMapper(

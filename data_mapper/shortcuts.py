@@ -3,3 +3,7 @@ from .properties import (
     PropertyRef as R,
     Value as V,
 )
+
+from .properties.functional import (
+    Operation as F,
+)

@@ -1,4 +1,4 @@
-from data_mapper.properties.operations.binary_operation import BinaryOperation
+from data_mapper.properties.functional.binary_operation import BinaryOperation
 
 
 class Mul(BinaryOperation):

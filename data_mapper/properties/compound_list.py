@@ -1,5 +1,5 @@
 from data_mapper.errors import ValidationError
-from data_mapper.properties.operations import Operation
+from data_mapper.properties.functional import Operation
 
 
 class CompoundListProperty(Operation):
