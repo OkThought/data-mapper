@@ -2,7 +2,6 @@ from unittest import TestCase
 
 from data_mapper.errors import PropertyNotFound
 from data_mapper.properties.integer import IntegerProperty
-from data_mapper.properties.functional.sum import Sum
 from data_mapper.properties.property import Property
 from data_mapper.properties.string import StringProperty
 from data_mapper.properties.value import Value
@@ -83,7 +82,10 @@ class PropertyTests(TestCase):
         self.assertEqual(2.5, prop.get(dict(x=5, y=2)))
 
     def test__sum(self):
-        prop = Sum(*(IntegerProperty(name, default=0) for name in 'xyz'))
+        prop = sum(
+            (IntegerProperty(name, default=0) for name in 'xyz'),
+            Value(0),
+        )
         self.assertEqual(6, prop.get(dict(x=1, y=2, z=3)))
         self.assertEqual(3, prop.get(dict(x=1, y=2)))
         self.assertEqual(3, prop.get(dict(x=1, y=2.5)))
