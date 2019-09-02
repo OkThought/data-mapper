@@ -1,9 +1,27 @@
 from .properties import (
-    Property as P,
-    PropertyRef as R,
-    Value as V,
+    Property,
+    Value,
+    PropertyRef,
 )
 
 from .properties.functional import (
-    Operation as F,
+    Operation,
 )
+
+from .properties.functional.operators import AllOperations
+
+
+class P(Property, AllOperations):
+    pass
+
+
+class V(Value, AllOperations):
+    pass
+
+
+class R(PropertyRef, AllOperations):
+    pass
+
+
+class Op(Operation, AllOperations):
+    pass

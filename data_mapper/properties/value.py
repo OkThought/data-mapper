@@ -11,6 +11,3 @@ class Value(Property):
 
     def __str__(self):
         return f'Value({self.value})'
-
-
-V = Value

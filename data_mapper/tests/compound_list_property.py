@@ -3,7 +3,7 @@ from unittest import TestCase
 from data_mapper.errors import ValidationError
 from data_mapper.properties import Property
 from data_mapper.properties.compound_list import CompoundListProperty
-from data_mapper.properties.value import V
+from data_mapper.shortcuts import V
 
 
 class CompoundListPropertyTests(TestCase):

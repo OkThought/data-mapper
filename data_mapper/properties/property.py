@@ -121,19 +121,3 @@ class Property(AbstractProperty):
         else:
             sources_str = ",".join(map(repr, self.sources))
         return f'{self.__class__.__name__}<{sources_str}>'
-
-    def __sub__(self, other):
-        from data_mapper.properties.functional.operators import Sub
-        return Sub(self, other)
-
-    def __add__(self, other):
-        from data_mapper.properties.functional.operators import Add
-        return Add(self, other)
-
-    def __mul__(self, other):
-        from data_mapper.properties.functional.operators import Mul
-        return Mul(self, other)
-
-    def __truediv__(self, other):
-        from data_mapper.properties.functional.operators import Truediv
-        return Truediv(self, other)

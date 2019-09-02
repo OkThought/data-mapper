@@ -63,33 +63,6 @@ class PropertyTests(TestCase):
     def test__sources__properties__nested(self):
         self.assertEqual(1, Property([Value(dict(x=1)), Property('x')]).get({}))
 
-    def test__add(self):
-        prop = Property('x') + Property('y')
-        self.assertEqual(3, prop.get(dict(x=1, y=2)))
-        prop = Property('x') + Property('y') + Property('z')
-        self.assertEqual(6, prop.get(dict(x=1, y=2, z=3)))
-
-    def test__sub(self):
-        prop = Property('x') - Property('y')
-        self.assertEqual(-1, prop.get(dict(x=1, y=2)))
-
-    def test__mul(self):
-        prop = Property('x') * Property('y')
-        self.assertEqual(4, prop.get(dict(x=2, y=2)))
-
-    def test__div(self):
-        prop = Property('x') / Property('y')
-        self.assertEqual(2.5, prop.get(dict(x=5, y=2)))
-
-    def test__sum(self):
-        prop = sum(
-            (IntegerProperty(name, default=0) for name in 'xyz'),
-            Value(0),
-        )
-        self.assertEqual(6, prop.get(dict(x=1, y=2, z=3)))
-        self.assertEqual(3, prop.get(dict(x=1, y=2)))
-        self.assertEqual(3, prop.get(dict(x=1, y=2.5)))
-
     def test__get_value__from_object(self):
         first, middle, last = 'Alexander Sergeyevich Pushkin'.split()
         pushkin = Person(1799, first, last, middle)
