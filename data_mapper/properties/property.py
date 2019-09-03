@@ -77,13 +77,19 @@ class Property(AllOperations):
             else:
                 break
         else:
-            if self.default is not NOT_SET:
-                value = self.default
-            elif self.required:
-                raise PropertyNotFound(sources)
-            else:
-                value = None
+            value = self.value_if_not_found(sources)
 
+        return value
+
+    def value_if_not_found(self, sources=NOT_SET):
+        if sources is NOT_SET:
+            sources = self.get_sources()
+        if self.default is not NOT_SET:
+            value = self.default
+        elif self.required:
+            raise PropertyNotFound(sources)
+        else:
+            value = None
         return value
 
     def get_sources(self):

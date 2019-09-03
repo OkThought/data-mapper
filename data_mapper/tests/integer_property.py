@@ -1,5 +1,6 @@
 from unittest import TestCase
 
+from data_mapper.errors import PropertyNotFound
 from data_mapper.properties.integer import IntegerProperty
 
 
@@ -20,6 +21,24 @@ class IntegerPropertyTests(TestCase):
             prop=IntegerProperty('x'),
             data=dict(x='1'),
             expected=1,
+        )
+
+    def test__str__empty(self):
+        with self.assertRaises(PropertyNotFound):
+            self._test(
+                prop=IntegerProperty('x'),
+                data=dict(x=''),
+                expected=None,
+            )
+        self._test(
+            prop=IntegerProperty('x', default=None),
+            data=dict(x=''),
+            expected=None,
+        )
+        self._test(
+            prop=IntegerProperty('x', required=False),
+            data=dict(x=''),
+            expected=None,
         )
 
     def test__float(self):
