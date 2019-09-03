@@ -15,3 +15,4 @@ from .value import ValueTests
 from .compound_list_property import CompoundListPropertyTests
 from .object import ObjectPropertyTests
 from .shortcuts import ShortcutsTests
+from .function import FunctionPropertyTests

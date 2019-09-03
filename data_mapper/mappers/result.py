@@ -42,6 +42,13 @@ class MapResult:
             self.cache[item] = value
         return value
 
+    def get(self, key, default=None):
+        try:
+            value = self[key]
+        except KeyError:
+            value = default
+        return value
+
     def __eq__(self, right):
         left = dict(self)
         if isinstance(right, MapResult):

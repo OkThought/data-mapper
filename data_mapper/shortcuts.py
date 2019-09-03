@@ -6,6 +6,7 @@ from .properties import (
 
 from .properties.functional import (
     Operation,
+    FunctionProperty,
 )
 
 from .properties.functional.operators import AllOperations
@@ -24,4 +25,8 @@ class R(PropertyRef, AllOperations):
 
 
 class Op(Operation, AllOperations):
+    pass
+
+
+class F(FunctionProperty, AllOperations):
     pass

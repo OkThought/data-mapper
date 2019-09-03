@@ -1,6 +1,7 @@
 from unittest import TestCase
 
-from data_mapper.shortcuts import V, P
+from data_mapper.properties import StringProperty
+from data_mapper.shortcuts import V, P, F
 
 
 class ShortcutsTests(TestCase):
@@ -188,3 +189,16 @@ class ShortcutsTests(TestCase):
         self._test(1, P(0), [1])
         self._test(2, P(1), [1, 2])
         self._test(3, P(1), {1: 3})
+
+    def test__f(self):
+        full_name = 'Ayn Rand'
+        name, surname = full_name.split()
+
+        self._test(
+            full_name,
+            F(' '.join, args=[V([name, surname])]),
+        )
+        self._test(
+            [name, surname],
+            F(str.split, args=[V(full_name)]),
+        )
