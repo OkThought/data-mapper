@@ -10,10 +10,12 @@ class BooleanProperty(Property):
             false_values=None,
             **kwargs,
     ):
-        assert len(tuple(filter(None, (
-            bool_fn, true_values, false_values
-        )))) <= 1, 'arguments `bool_fn`, `true_values` and `false_values` ' \
-                   'are exclusive'
+        assert sum(
+            1 for i in
+            (bool_fn, true_values, false_values)
+            if i is not None
+        ) <= 1, 'arguments `bool_fn`, `true_values` and `false_values` ' \
+                'are exclusive'
 
         super().__init__(*args, **kwargs)
 
@@ -27,5 +29,7 @@ class BooleanProperty(Property):
             else:
                 self.bool_fn = bool
 
-    def get(self, data: dict, result=None):
-        return self.bool_fn(super().get(data, result))
+    def get_raw(self, data: dict, result=None):
+        value = super().get_raw(data, result)
+        value = self.bool_fn(value)
+        return value

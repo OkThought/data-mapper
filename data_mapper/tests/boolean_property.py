@@ -1,5 +1,6 @@
 from unittest import TestCase
 
+from data_mapper.properties import StringProperty
 from data_mapper.properties.boolean import BooleanProperty
 
 
@@ -60,9 +61,11 @@ class BooleanPropertyTests(TestCase):
 
     def test__true_values(self):
         prop = BooleanProperty(
-            'x',
+            StringProperty(
+                'x',
+                transforms=[str.lower],
+            ),
             true_values={'y', 'yes'},
-            transforms=[str.lower],
         )
         self._test(
             prop=prop,
