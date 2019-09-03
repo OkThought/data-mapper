@@ -39,29 +39,28 @@ class ExamplesTests(TestCase):
         })
 
     def test__full_name(self):
-        full_name = Operation(
-            StringProperty('first_name'),
-            StringProperty('middle_name', required=False),
-            StringProperty('last_name'),
-            func=lambda args: ' '.join(filter(None, args)),
+        from data_mapper.shortcuts import F, Str, L
+
+        full_name = F(
+            ' '.join,
+            L(
+                Str('first_name'),
+                Str('middle_name', required=False),
+                Str('last_name'),
+                skip_none=True,
+            ),
         )
 
-        self.assertEqual(
-            'Anton Pavlovich Chekhov',
-            full_name.get(dict(
-                first_name='Anton',
-                middle_name='Pavlovich',
-                last_name='Chekhov',
-            )),
-        )
+        assert 'Anton Pavlovich Chekhov' == full_name.get(dict(
+            first_name='Anton',
+            middle_name='Pavlovich',
+            last_name='Chekhov',
+        ))
 
-        self.assertEqual(
-            'Anton Chekhov',
-            full_name.get(dict(
-                first_name='Anton',
-                last_name='Chekhov',
-            )),
-        )
+        assert 'Anton Chekhov' == full_name.get(dict(
+            first_name='Anton',
+            last_name='Chekhov',
+        ))
 
     @staticmethod
     def test__object_mapper__subclass():
