@@ -11,6 +11,10 @@ class PropertyRefTests(TestCase):
     def test__empty_source(self):
         with self.assertRaises(AssertionError):
             PropertyRef([])
+        with self.assertRaises(AssertionError):
+            PropertyRef()
+        with self.assertRaises(AssertionError):
+            PropertyRef(sources_it=[])
 
     def test__flat_source(self):
         class MyMapper(Mapper):

@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from data_mapper.properties import StringProperty
-from data_mapper.shortcuts import V, P, F
+from data_mapper.properties import StringProperty, CompoundProperty
+from data_mapper.shortcuts import V, P, F, R
 
 
 class ShortcutsTests(TestCase):
@@ -201,4 +201,16 @@ class ShortcutsTests(TestCase):
         self._test(
             [name, surname],
             F(str.split, args=[V(full_name)]),
+        )
+
+    def test__r(self):
+
+        self._test(
+            dict(days=1, hours=1, minutes=30, total_hours=25.5),
+            CompoundProperty(
+                total_hours=R('days') * 24 + R('hours') + R('minutes') / 60,
+                days=V(1),
+                hours=V(1),
+                minutes=V(30),
+            ),
         )

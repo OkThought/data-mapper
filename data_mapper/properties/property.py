@@ -2,10 +2,11 @@ from typing import Iterable, Callable
 
 from data_mapper.errors import PropertyNotFound
 from data_mapper.properties.abstract import AbstractProperty
+from data_mapper.properties.operations import AllOperations
 from data_mapper.utils import NOT_SET
 
 
-class Property(AbstractProperty):
+class Property(AllOperations):
     default_sources = [[]]
     get_value_exc_default = (LookupError, AttributeError)
 

@@ -9,24 +9,14 @@ from .properties.functional import (
     FunctionProperty,
 )
 
-from .properties.functional.operators import AllOperations
+from data_mapper.properties.operations import AllOperations
 
 
-class P(Property, AllOperations):
-    pass
-
-
-class V(Value, AllOperations):
-    pass
+P = Property
+V = Value
+Op = Operation
+F = FunctionProperty
 
 
 class R(PropertyRef, AllOperations):
-    pass
-
-
-class Op(Operation, AllOperations):
-    pass
-
-
-class F(FunctionProperty, AllOperations):
     pass
