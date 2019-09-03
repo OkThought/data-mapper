@@ -1,5 +1,6 @@
 from unittest import TestCase
 
+from data_mapper.errors import PropertyNotFound
 from data_mapper.properties.float import FloatProperty
 
 
@@ -20,6 +21,24 @@ class FloatPropertyTests(TestCase):
             prop=FloatProperty('x'),
             data=dict(x='1.'),
             expected=1.,
+        )
+
+    def test__str__empty(self):
+        with self.assertRaises(PropertyNotFound):
+            self._test(
+                prop=FloatProperty('x'),
+                data=dict(x=''),
+                expected=None,
+            )
+        self._test(
+            prop=FloatProperty('x', default=None),
+            data=dict(x=''),
+            expected=None,
+        )
+        self._test(
+            prop=FloatProperty('x', required=False),
+            data=dict(x=''),
+            expected=None,
         )
 
     def test__float(self):
