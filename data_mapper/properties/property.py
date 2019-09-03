@@ -3,12 +3,12 @@ from typing import Iterable, Callable
 from data_mapper.errors import PropertyNotFound
 from data_mapper.properties.abstract import AbstractProperty
 from data_mapper.properties.operations import AllOperations
-from data_mapper.utils import NOT_SET
+from data_mapper.utils import NOT_SET, cached_property
 
 
 class Property(AllOperations):
     default_sources = [[]]
-    get_value_exc_default = (LookupError, AttributeError)
+    get_value_exc_default = (LookupError, AttributeError, ValueError, TypeError)
 
     def __init__(
             self,
@@ -16,16 +16,12 @@ class Property(AllOperations):
             sources_it: Iterable = None,
             default=NOT_SET,
             required: bool = None,
-            transforms: Iterable[Callable[[str], str]] = None,
             get_value: Callable = None,
             get_value_exc=None,
-            **kwargs,
     ):
         assert not sources or not sources_it, \
             '*sources and sources_it are exclusive'
         assert default is NOT_SET or not required
-
-        super().__init__(**kwargs)
 
         if len(sources) > 0:
             self.sources = sources
@@ -36,27 +32,11 @@ class Property(AllOperations):
 
         self.default = default
         self.required = True if required is None else required
-        self.transforms = [] if transforms is None else transforms
         self._get_value = get_value
         self._get_value_exc = get_value_exc
         self.parent = None
 
     def get(self, data, result=None):
-        value = self.get_raw(data, result)
-        self.validate_raw(value)
-        value = self.transform(value)
-        self.validate(value)
-        return value
-
-    def transform(self, value):
-        for transform in self.get_transforms():
-            value = transform(value)
-        return value
-
-    def get_transforms(self):
-        return self.transforms
-
-    def get_raw(self, data, result=None):
         sources = self.get_sources()
 
         for source in sources:
@@ -72,6 +52,12 @@ class Property(AllOperations):
                             value = sub_source.get(value)
                         else:
                             value = self.get_value(value, sub_source)
+                value = self.eval(
+                    value,
+                    result=result,
+                    sources=sources,
+                    current_source=source,
+                )
             except self.get_value_exc:
                 continue
             else:
@@ -95,7 +81,21 @@ class Property(AllOperations):
     def get_sources(self):
         return self.default_sources if self.sources is None else self.sources
 
-    @property
+    def eval(self, value, **context):
+        if value is None:
+            # noinspection PyNoneFunctionAssignment
+            value = self.eval_none(**context)
+        else:
+            value = self.eval_not_none(value, **context)
+        return value
+
+    def eval_none(self, **context):
+        return
+
+    def eval_not_none(self, value, **context):
+        return value
+
+    @cached_property
     def get_value(self):
         get_value = self._get_value
         if get_value is None and self.parent is not None:
@@ -113,7 +113,7 @@ class Property(AllOperations):
                 return getattr(d, k)
             raise e
 
-    @property
+    @cached_property
     def get_value_exc(self):
         get_value_exc = self._get_value_exc
         if get_value_exc is None and self.parent is not None:

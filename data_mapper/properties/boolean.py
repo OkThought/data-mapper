@@ -29,7 +29,5 @@ class BooleanProperty(Property):
             else:
                 self.bool_fn = bool
 
-    def get_raw(self, data: dict, result=None):
-        value = super().get_raw(data, result)
-        value = self.bool_fn(value)
-        return value
+    def eval_not_none(self, value, **context):
+        return self.bool_fn(super().eval_not_none(value, **context))

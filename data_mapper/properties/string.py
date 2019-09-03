@@ -2,8 +2,6 @@ from data_mapper.properties.property import Property
 
 
 class StringProperty(Property):
-    def get_raw(self, data, result=None):
-        value = super().get_raw(data, result)
-        if value is not None:
-            value = str(value)
-        return value
+    def eval_not_none(self, value, **context):
+        value = super().eval_not_none(value, **context)
+        return str(value)

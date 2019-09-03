@@ -31,10 +31,10 @@ class CompoundProperty(Property):
         if getattr(prop, 'sources', 0) is None:
             prop.sources = [key]
 
-    def get_raw(self, data, result=None):
+    def eval_not_none(self, value, result=None, **context):
         result = MapResult(
             self.props_map,
-            data=super().get_raw(data, result),
+            data=super().eval_not_none(value),
             lazy=self.lazy,
             result=result,
         )

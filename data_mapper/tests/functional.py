@@ -22,14 +22,11 @@ class PropertyOperationTests(TestCase):
         self.assertEqual(0, prop.get({}))
 
     def test__date_format(self):
-        def dot_join(args):
-            return '.'.join(args)
-
         prop = Operation(
-            StringProperty('year', default=2019),
+            StringProperty('year', default='2019'),
             StringProperty('month'),
             StringProperty('day'),
-            func=dot_join,
+            func='.'.join,
         )
         data = {'month': 8, 'day': 12}
         self.assertEqual('2019.8.12', prop.get(data))
@@ -40,7 +37,7 @@ class PropertyOperationTests(TestCase):
             star_func=lambda x: x,
             get_value=lambda *_: 'foo',
         )
-        self.assertEqual('foo', prop.get_raw(dict(x=5)))
+        self.assertEqual('foo', prop.get(dict(x=5)))
 
     def test__get_value__set_in_grand_parent(self):
         prop = Operation(
@@ -48,4 +45,4 @@ class PropertyOperationTests(TestCase):
             star_func=lambda x: x,
             get_value=lambda *_: 'foo',
         )
-        self.assertEqual('foo', prop.get_raw(dict(x=5)))
+        self.assertEqual('foo', prop.get(dict(x=5)))

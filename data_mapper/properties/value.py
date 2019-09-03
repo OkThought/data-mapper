@@ -6,7 +6,7 @@ class Value(Property):
         self.value = value
         super().__init__(**kwargs)
 
-    def get_raw(self, data, result=None):
+    def get(self, data, result=None):
         return self.value
 
     def __str__(self):

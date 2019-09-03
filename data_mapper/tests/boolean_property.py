@@ -1,5 +1,6 @@
 from data_mapper.properties import StringProperty
 from data_mapper.properties.boolean import BooleanProperty
+from data_mapper.shortcuts import F
 from data_mapper.tests.test_utils import PropertyTests
 
 
@@ -37,7 +38,7 @@ class BooleanPropertyTests(PropertyTests):
         def first_uppercase(s: str):
             return len(s) > 0 and s[0].isupper()
 
-        prop = BooleanProperty('x', bool_fn=first_uppercase)
+        prop = BooleanProperty(StringProperty('x'), bool_fn=first_uppercase)
         self.prop_test(
             prop=prop,
             data=dict(x='ian'),
@@ -56,10 +57,7 @@ class BooleanPropertyTests(PropertyTests):
 
     def test__true_values(self):
         prop = BooleanProperty(
-            StringProperty(
-                'x',
-                transforms=[str.lower],
-            ),
+            F(str.lower, [StringProperty('x')]),
             true_values={'y', 'yes'},
         )
         self.prop_test(

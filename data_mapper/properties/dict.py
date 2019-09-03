@@ -2,5 +2,5 @@ from data_mapper.properties.property import Property
 
 
 class DictProperty(Property):
-    def get(self, data: dict, result=None):
-        return dict(super().get(data, result))
+    def eval_not_none(self, value, **context):
+        return dict(super().eval_not_none(value, **context))

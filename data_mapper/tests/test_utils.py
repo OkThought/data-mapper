@@ -1,5 +1,7 @@
 from unittest import TestCase
 
+from data_mapper.errors import PropertyNotFound
+
 
 class Person:
     def __init__(
@@ -32,7 +34,7 @@ class Person:
 class PropertyTests(TestCase):
     def prop_test(
             self,
-            prop=None,
+            prop,
             expect=None,
             data=None,
             exc=None,
@@ -44,3 +46,14 @@ class PropertyTests(TestCase):
                 prop.get(data)
         else:
             self.assertEqual(expect, prop.get(data))
+
+    def prop_raises(
+            self,
+            exc,
+            prop,
+            data=None,
+    ):
+        self.prop_test(prop, data=data, exc=exc)
+
+    def prop_not_found(self, prop, data=None):
+        self.prop_raises(PropertyNotFound, prop, data)

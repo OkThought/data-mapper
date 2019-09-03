@@ -28,7 +28,7 @@ class FunctionProperty(CompoundProperty):
         )
         self.func = func
 
-    def get_raw(self, data, result=None):
-        value = super().get_raw(data, result)
+    def get(self, data, result=None):
+        value = super().get(data, result)
         value = self.func(*value.get('args', ()), **value.get('kwargs', {}))
         return value

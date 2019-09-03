@@ -29,7 +29,7 @@ class ObjectMapper(Mapper):
         elif not hasattr(self, 'kwargs'):
             self.kwargs = None
 
-    def get_raw(self, data, result=None):
+    def get(self, data, result=None):
         args = (
             () if self.args is None
             else self.args.get(data, result)

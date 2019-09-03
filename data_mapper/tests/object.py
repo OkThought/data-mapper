@@ -30,7 +30,6 @@ class ObjectPropertyTests(PropertyTests):
                 StringProperty('last_name'),
                 StringProperty('middle_name', required=False),
                 skip_none=True,
-                allowed_sizes=range(3, 5),
             )
 
         self.assertEqual(
@@ -72,7 +71,6 @@ class ObjectPropertyTests(PropertyTests):
                 StringProperty('last_name'),
                 StringProperty('middle_name', required=False),
                 skip_none=True,
-                allowed_sizes=range(3, 5),
             ),
         )
         self.assertEqual(

@@ -49,7 +49,7 @@ class Operation(Property):
             return self.func(args)
         raise NotImplementedError
 
-    def get_raw(self, data, result=None):
+    def get(self, data, result=None):
         return self.apply(*self.get_args(data, result))
 
     def get_args(self, data, result=None):

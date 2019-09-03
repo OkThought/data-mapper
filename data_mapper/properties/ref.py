@@ -9,7 +9,7 @@ class PropertyRef(Property):
             sources_it, sources = sources[0], ()
         super().__init__(*sources, sources_it=sources_it, **kwargs)
 
-    def get_raw(self, data, result=None):
+    def get(self, data, result=None):
         assert result is not None, \
             'result is none, probably property has no parent. ' \
             f'You can only use {self.__class__.__name__} inside of other ' \
