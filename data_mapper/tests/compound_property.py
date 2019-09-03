@@ -1,11 +1,10 @@
-from unittest import TestCase
-
 from data_mapper.properties import Property
 from data_mapper.properties.compound import CompoundProperty
 from data_mapper.properties.string import StringProperty
+from data_mapper.tests.test_utils import PropertyTests
 
 
-class CompoundPropertyTests(TestCase):
+class CompoundPropertyTests(PropertyTests):
     def test(self):
         prop = CompoundProperty(
             first_name=StringProperty(['name']),

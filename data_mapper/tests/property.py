@@ -1,14 +1,13 @@
-from unittest import TestCase
-
 from data_mapper.errors import PropertyNotFound
 from data_mapper.properties.integer import IntegerProperty
 from data_mapper.properties.property import Property
 from data_mapper.properties.string import StringProperty
 from data_mapper.properties.value import Value
-from data_mapper.tests.test_utils import Person
+from data_mapper.tests.test_utils import Person, PropertyTests
 
 
-class PropertyTests(TestCase):
+# noinspection PyRedeclaration
+class PropertyTests(PropertyTests):
     def test__root_source(self):
         prop = Property([])
         data = dict(x=1)

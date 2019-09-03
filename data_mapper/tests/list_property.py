@@ -1,29 +1,24 @@
-from unittest import TestCase
-
 from data_mapper.errors import ValidationError
 from data_mapper.properties.list import ListProperty
+from data_mapper.tests.test_utils import PropertyTests
 
 
-class ListPropertyTests(TestCase):
-    def _test(self, prop, data, expected):
-        result = prop.get(data)
-        self.assertEqual(expected, result)
-
+class ListPropertyTests(PropertyTests):
     def test__empty(self):
-        prop = ListProperty(['x'])
-        self.assertEqual(prop.get(dict(x=[])), [])
+        self.prop_test(ListProperty(['x']), [], dict(x=[]))
 
     def test__nonempty(self):
-        prop = ListProperty(['x'])
-        self.assertEqual(prop.get(dict(x=[1])), [1])
+        self.prop_test(ListProperty(['x']), [1], dict(x=[1]))
 
     def test__many_sources(self):
-        prop = ListProperty('x', 'y', 'z')
-        self.assertEqual(prop.get(dict(y=[1., '2'], z=[3])), [1., '2'])
+        self.prop_test(
+            ListProperty('x', 'y', 'z'),
+            [1., '2'],
+            dict(y=[1., '2'], z=[3]),
+        )
 
     def test__range(self):
-        prop = ListProperty('x')
-        self.assertEqual(prop.get(dict(x=range(3))), [0, 1, 2])
+        self.prop_test(ListProperty('x'), [0, 1, 2], dict(x=range(3)))
 
     def test__transforms__filter_positive(self):
         positive = ListProperty(
@@ -45,13 +40,13 @@ class ListPropertyTests(TestCase):
         prop.get(dict(x=[1., 2., 3.]))
 
     def test__none(self):
-        self._test(
+        self.prop_test(
             prop=ListProperty('x', required=False),
             data=dict(x=None),
-            expected=None,
+            expect=None,
         )
-        self._test(
+        self.prop_test(
             prop=ListProperty('x', required=False),
             data=dict(),
-            expected=None,
+            expect=None,
         )

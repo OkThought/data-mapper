@@ -1,41 +1,36 @@
-from unittest import TestCase
-
 from data_mapper.properties import StringProperty
 from data_mapper.properties.boolean import BooleanProperty
+from data_mapper.tests.test_utils import PropertyTests
 
 
-class BooleanPropertyTests(TestCase):
-    def _test(self, prop, data, expected):
-        result = prop.get(data)
-        self.assertEqual(expected, result)
-
+class BooleanPropertyTests(PropertyTests):
     def test__bool(self):
-        self._test(
+        self.prop_test(
             prop=BooleanProperty('x'),
             data=dict(x=True),
-            expected=True,
+            expect=True,
         )
-        self._test(
+        self.prop_test(
             prop=BooleanProperty('x'),
             data=dict(x=False),
-            expected=False,
+            expect=False,
         )
 
     def test__str(self):
-        self._test(
+        self.prop_test(
             prop=BooleanProperty('x'),
             data=dict(x=''),
-            expected=False,
+            expect=False,
         )
-        self._test(
+        self.prop_test(
             prop=BooleanProperty('x'),
             data=dict(x='asdf'),
-            expected=True,
+            expect=True,
         )
-        self._test(
+        self.prop_test(
             prop=BooleanProperty('x'),
             data=dict(x='False'),
-            expected=True,
+            expect=True,
         )
 
     def test__bool_fn(self):
@@ -43,20 +38,20 @@ class BooleanPropertyTests(TestCase):
             return len(s) > 0 and s[0].isupper()
 
         prop = BooleanProperty('x', bool_fn=first_uppercase)
-        self._test(
+        self.prop_test(
             prop=prop,
             data=dict(x='ian'),
-            expected=False,
+            expect=False,
         )
-        self._test(
+        self.prop_test(
             prop=prop,
             data=dict(x='Ian'),
-            expected=True,
+            expect=True,
         )
-        self._test(
+        self.prop_test(
             prop=prop,
             data=dict(x=''),
-            expected=False,
+            expect=False,
         )
 
     def test__true_values(self):
@@ -67,45 +62,45 @@ class BooleanPropertyTests(TestCase):
             ),
             true_values={'y', 'yes'},
         )
-        self._test(
+        self.prop_test(
             prop=prop,
             data=dict(x=''),
-            expected=False,
+            expect=False,
         )
-        self._test(
+        self.prop_test(
             prop=prop,
             data=dict(x='Y'),
-            expected=True,
+            expect=True,
         )
-        self._test(
+        self.prop_test(
             prop=prop,
             data=dict(x='y'),
-            expected=True,
+            expect=True,
         )
-        self._test(
+        self.prop_test(
             prop=prop,
             data=dict(x='Yes'),
-            expected=True,
+            expect=True,
         )
-        self._test(
+        self.prop_test(
             prop=prop,
             data=dict(x='yes'),
-            expected=True,
+            expect=True,
         )
-        self._test(
+        self.prop_test(
             prop=prop,
             data=dict(x='no'),
-            expected=False,
+            expect=False,
         )
 
     def test__default(self):
-        self._test(
+        self.prop_test(
             prop=BooleanProperty('x', default=True),
             data=dict(),
-            expected=True,
+            expect=True,
         )
-        self._test(
+        self.prop_test(
             prop=BooleanProperty('x', default=False),
             data=dict(),
-            expected=False,
+            expect=False,
         )

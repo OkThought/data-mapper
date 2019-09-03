@@ -1,14 +1,12 @@
-from unittest import TestCase
-
 from data_mapper.mappers.object import ObjectMapper
 from data_mapper.properties.compound import CompoundProperty
 from data_mapper.properties.compound_list import CompoundListProperty
 from data_mapper.properties.integer import IntegerProperty
 from data_mapper.properties.string import StringProperty
-from data_mapper.tests.test_utils import Person
+from data_mapper.tests.test_utils import Person, PropertyTests
 
 
-class ObjectPropertyTests(TestCase):
+class ObjectPropertyTests(PropertyTests):
     dostoevsky = Person(0, 'Fyodor', 'Dostoevsky', 'Mikhailovich')
     dostoevsky_no_middle_name = Person(0, 'Fyodor', 'Dostoevsky')
     dostoevsky_dict = dict(

@@ -1,10 +1,9 @@
-from unittest import TestCase
-
 from data_mapper.mappers.mapper import Mapper
 from data_mapper.properties.string import StringProperty
+from data_mapper.tests.test_utils import PropertyTests
 
 
-class StringPropertyTests(TestCase):
+class StringPropertyTests(PropertyTests):
     def test__in_mapper(self):
         value, expected_value = 'hannah', 'hannah'
 

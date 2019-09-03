@@ -1,23 +1,18 @@
-from unittest import TestCase
-
 from data_mapper.properties.dict import DictProperty
+from data_mapper.tests.test_utils import PropertyTests
 
 
-class DictPropertyTests(TestCase):
-    def _test(self, prop, data, expected):
-        result = prop.get(data)
-        self.assertEqual(expected, result)
-
+class DictPropertyTests(PropertyTests):
     def test__dict(self):
         address = dict(
             city='London',
             street='Baker Street',
             property_number='221B',
         )
-        self._test(
+        self.prop_test(
             prop=DictProperty(['address']),
             data=dict(address=address),
-            expected=address
+            expect=address
         )
 
     def test__key_value_pairs(self):
@@ -26,8 +21,8 @@ class DictPropertyTests(TestCase):
             street='Baker Street',
             property_number='221B',
         )
-        self._test(
+        self.prop_test(
             prop=DictProperty(['address']),
             data=dict(address=list(address.items())),
-            expected=address
+            expect=address
         )

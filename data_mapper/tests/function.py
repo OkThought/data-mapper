@@ -1,10 +1,9 @@
-from unittest import TestCase
-
 from data_mapper.properties.functional import FunctionProperty
 from data_mapper.shortcuts import V
+from data_mapper.tests.test_utils import PropertyTests
 
 
-class FunctionPropertyTests(TestCase):
+class FunctionPropertyTests(PropertyTests):
     def _test(self, expected, prop, data=None, raises=None):
         if data is None:
             data = {}

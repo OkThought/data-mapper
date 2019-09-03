@@ -1,3 +1,6 @@
+from unittest import TestCase
+
+
 class Person:
     def __init__(
             self,
@@ -24,3 +27,20 @@ class Person:
         return f'{self.__class__.__name__}(' \
                f'{self.id}, {self.first_name}, {self.last_name}, ' \
                f'{self.middle_name})'
+
+
+class PropertyTests(TestCase):
+    def prop_test(
+            self,
+            prop=None,
+            expect=None,
+            data=None,
+            exc=None,
+    ):
+        if data is None:
+            data = {}
+        if exc is not None:
+            with self.assertRaises(exc):
+                prop.get(data)
+        else:
+            self.assertEqual(expect, prop.get(data))
