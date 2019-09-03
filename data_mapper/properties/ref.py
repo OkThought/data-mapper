@@ -1,22 +1,23 @@
-from data_mapper.properties.abstract import AbstractProperty
+from data_mapper.properties import Property
 
 
-class PropertyRef(AbstractProperty):
-    def __init__(self, *sources, sources_it=None):
-        assert not sources or sources_it is None
-
-        if not sources:
-            sources = sources_it
-        elif len(sources) == 1 and hasattr(sources[0], '__iter__') \
+class PropertyRef(Property):
+    def __init__(self, *sources, sources_it=None, **kwargs):
+        if len(sources) == 1 and hasattr(sources[0], '__iter__') \
                 and not isinstance(sources[0], str):
             # backwards compatibility
-            sources = sources[0]
+            sources_it, sources = sources[0], ()
+        super().__init__(*sources, sources_it=sources_it, **kwargs)
 
-        assert sources
-        self.sources = sources
-
-    def get(self, data, result=None):
+    def get_raw(self, data, result=None):
+        assert result is not None, \
+            'result is none, probably property has no parent. ' \
+            f'You can only use {self.__class__.__name__} inside of other ' \
+            'property that has its own result (e.g. CompoundProperty). ' \
+            'Or you can pass your own object as a result.'
         value = result
-        for sub_source in self.sources:
-            value = value[sub_source]
+        sources = self.get_sources()
+        assert sources, 'no sources, must be set at some point'
+        for sub_source in sources:
+            value = self.get_value(value, sub_source)
         return value
