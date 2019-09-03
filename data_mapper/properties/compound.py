@@ -34,7 +34,7 @@ class CompoundProperty(Property):
     def eval_not_none(self, value, result=None, **context):
         result = MapResult(
             self.props_map,
-            data=super().eval_not_none(value),
+            data=super().eval_not_none(value, result=result, **context),
             lazy=self.lazy,
             result=result,
         )

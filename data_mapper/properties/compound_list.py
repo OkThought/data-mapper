@@ -13,8 +13,8 @@ class CompoundListProperty(Operation):
         super().__init__(*args, **kwargs)
         self.skip_none = skip_none
 
-    def eval_not_none(self, value, **context):
-        value = super().eval_not_none(value, **context)
+    def get(self, data, result=None):
+        value = super().get(data, result)
         if self.skip_none:
             value = [i for i in value if i is not None]
         return value
