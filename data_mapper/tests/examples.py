@@ -6,7 +6,6 @@ from data_mapper.mappers.object import ObjectMapper
 from data_mapper.properties.compound import CompoundProperty
 from data_mapper.properties.compound_list import CompoundListProperty
 from data_mapper.properties.integer import IntegerProperty
-from data_mapper.properties.functional.operation import Operation
 from data_mapper.properties.string import StringProperty
 from data_mapper.tests.test_utils import Person
 
