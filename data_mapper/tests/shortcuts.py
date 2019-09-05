@@ -1,5 +1,9 @@
 from data_mapper.properties import CompoundProperty
-from data_mapper.shortcuts import V, P, F, R
+from data_mapper.shortcuts import (
+    V, P, F, R, D, Op, Bool, Str, Int, Float,
+    Dict, List,
+    L,
+)
 from data_mapper.tests.test_utils import PropertyTests
 
 
@@ -208,3 +212,30 @@ class ShortcutsTests(PropertyTests):
             ),
             dict(days=1, hours=1, minutes=30, total_hours=25.5),
         )
+
+    def test__op(self):
+        self.prop_test(Op(V(3), V(2), star_func=lambda x, y: x ** y), 9)
+
+    def test__bool(self):
+        self.prop_test(Bool(V(False)), False)
+
+    def test__str(self):
+        self.prop_test(Str(V(1)), '1')
+
+    def test__int(self):
+        self.prop_test(Int(V('1')), 1)
+
+    def test__float(self):
+        self.prop_test(Float(V('1.1')), 1.1)
+
+    def test__dict(self):
+        self.prop_test(Dict(V(dict(x=1, y=2))), dict(x=1, y=2))
+
+    def test__list(self):
+        self.prop_test(List(V((1, 2, 3))), [1, 2, 3])
+
+    def test__d(self):
+        self.prop_test(D(x=V(1)), dict(x=1))
+
+    def test__l(self):
+        self.prop_test(L(V(1), V(2)), [1, 2])
