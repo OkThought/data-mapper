@@ -1,4 +1,4 @@
-from data_mapper.mappers.result import MapResult
+from data_mapper.result import MapResult
 from data_mapper.properties.property import Property
 
 
