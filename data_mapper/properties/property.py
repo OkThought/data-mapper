@@ -127,4 +127,7 @@ class Property(AllOperations):
             sources_str = str(self.sources)
         else:
             sources_str = ",".join(map(repr, self.sources))
-        return f'{self.__class__.__name__}<{sources_str}>'
+        prop_str = f'{self.__class__.__name__}<{sources_str}>'
+        if self.parent:
+            prop_str = f'{self.parent}:{prop_str}'
+        return prop_str
