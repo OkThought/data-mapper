@@ -86,3 +86,12 @@ class PropertyTests(PropertyTests):
             'unknown', get_value=getattr, get_value_exc=AttributeError)
         with self.assertRaises(PropertyNotResolved):
             prop.get(pushkin)
+
+    def test__errors(self):
+        x = Property('x')
+        prop = Property(x)
+        with self.assertRaises(PropertyNotResolved) as exc:
+            prop.get({})
+        self.assertIs(prop, exc.exception.prop)
+        self.assertIn(str(prop), str(exc.exception))
+        self.assertIn(str(x), str(exc.exception))

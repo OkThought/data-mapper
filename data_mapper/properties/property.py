@@ -38,7 +38,7 @@ class Property(AllOperations):
 
     def get(self, data, result=None):
         sources = self.get_sources()
-
+        errors = []
         for source in sources:
             value = data
             try:
@@ -58,22 +58,21 @@ class Property(AllOperations):
                     sources=sources,
                     current_source=source,
                 )
-            except self.get_value_exc:
+            except self.get_value_exc as e:
+                errors.append(e)
                 continue
             else:
                 break
         else:
-            value = self.value_if_not_found(sources)
+            value = self.value_if_not_found(errors=errors)
 
         return value
 
-    def value_if_not_found(self, sources=NOT_SET):
-        if sources is NOT_SET:
-            sources = self.get_sources()
+    def value_if_not_found(self, errors=None, **context):
         if self.default is not NOT_SET:
             value = self.default
         elif self.required:
-            raise PropertyNotResolved(self)
+            raise PropertyNotResolved(self, errors)
         else:
             value = None
         return value
