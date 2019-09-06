@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="data-mapper",
-    version="4.2.6",
+    version="4.2.7",
     author="OkThought",
     author_email="bogush.vano@gmail.com",
     description="A declarative data mapper",
