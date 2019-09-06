@@ -39,3 +39,15 @@ class CompoundProperty(Property):
             result=result,
         )
         return result
+
+    def __str__(self):
+        return f"""{
+        self.__class__.__name__
+        }({
+        f"sources={self.sources}, " 
+        if self.sources is not None 
+           and self.sources != self._default_options['sources']
+        else ''
+        }{
+        ', '.join(f'{k}={v}' for k, v in self.props_map.items())
+        })"""

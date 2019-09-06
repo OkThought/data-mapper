@@ -1,6 +1,7 @@
-from data_mapper.properties import Property
+from data_mapper.properties import Property, PropertyRef
 from data_mapper.properties.compound import CompoundProperty
 from data_mapper.properties.string import StringProperty
+from data_mapper.shortcuts import V
 from data_mapper.tests.test_utils import PropertyTests
 
 
@@ -54,3 +55,24 @@ class CompoundPropertyTests(PropertyTests):
             ),
         )
         self.assertEqual('foo', prop.get(dict(x=5))['y']['x'])
+
+    def test__str(self):
+        self.assertEqual(
+            "CompoundProperty(x=Value(1))",
+            str(CompoundProperty(x=V(1))),
+        )
+        self.assertEqual(
+            "CompoundProperty(sources=['y', 'z'], x=Value(1))",
+            str(CompoundProperty(dict(sources=['y', 'z']), x=V(1))),
+        )
+        self.assertEqual(
+            "CompoundProperty("
+            "sources=[['y'], ['z', 'w']], "
+            "x=Value(1), "
+            "y=PropertyRef('x'))",
+            str(CompoundProperty(
+                dict(sources=[['y'], ['z', 'w']]),
+                x=V(1),
+                y=PropertyRef('x'),
+            )),
+        )
