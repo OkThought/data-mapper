@@ -1,7 +1,7 @@
-from typing import Iterator, Tuple, Any
+from typing import Iterator, Any, Mapping
 
 
-class MapResult:
+class MapResult(Mapping):
     def __init__(
             self,
             props_map,
@@ -16,6 +16,9 @@ class MapResult:
         if not lazy:
             self.evaluate()
 
+    def __len__(self) -> int:
+        return len(self.props_map)
+
     def evaluate(self):
         for _ in self:
             pass
@@ -23,15 +26,15 @@ class MapResult:
     def keys(self):
         return self.props_map.keys()
 
+    def items(self):
+        return ((k, self[k]) for k in self.keys())
+
     @property
     def result(self):
         return self if self._result is None else self._result
 
-    def __iter__(self) -> Iterator[Tuple[Any, Any]]:
-        return (
-            (key, self[key])
-            for key in self.props_map.keys()
-        )
+    def __iter__(self) -> Iterator[Any]:
+        return iter(self.keys())
 
     def __getitem__(self, item):
         try:
