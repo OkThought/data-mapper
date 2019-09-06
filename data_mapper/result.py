@@ -20,8 +20,9 @@ class MapResult(Mapping):
         return len(self.props_map)
 
     def evaluate(self):
-        for _ in self:
-            pass
+        for k in self.keys():
+            # noinspection PyStatementEffect
+            self[k]
 
     def keys(self):
         return self.props_map.keys()
