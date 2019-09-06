@@ -5,7 +5,7 @@ from data_mapper.properties.property import Property
 class CompoundProperty(Property):
     _default_options = dict(
         sources=[[]],
-        lazy=True,
+        lazy=False,
     )
 
     def __init__(
