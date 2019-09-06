@@ -1,9 +1,13 @@
-from typing import Iterable
+from data_mapper.properties import Property
 
 
-class PropertyNotFound(LookupError):
-    def __init__(self, sources: Iterable):
-        super().__init__(f'Property not found in sources: {sources}')
+class PropertyNotResolved(LookupError):
+    def __init__(self, prop: Property):
+        self.prop = prop
+        super().__init__(str(prop))
+
+
+PropertyNotFound = PropertyNotResolved  # backwards compatibility
 
 
 class ValidationError(ValueError):

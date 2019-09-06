@@ -1,6 +1,6 @@
 from typing import Callable, Iterable
 
-from data_mapper.errors import PropertyNotFound
+from data_mapper.errors import PropertyNotResolved
 from data_mapper.properties import Property
 from data_mapper.properties.abstract import AbstractProperty
 
@@ -60,9 +60,9 @@ class Operation(Property):
                 for prop in props:
                     try:
                         yield prop.get(data, result)
-                    except PropertyNotFound:
+                    except PropertyNotResolved:
                         continue
                     else:
                         break
                 else:
-                    raise PropertyNotFound(props)
+                    raise PropertyNotResolved(props)
