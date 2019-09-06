@@ -1,13 +1,13 @@
-from unittest import TestCase
-
 from data_mapper.mappers.mapper import Mapper
 from data_mapper.properties import Value
 from data_mapper.properties.compound import CompoundProperty
 from data_mapper.properties.ref import PropertyRef
 from data_mapper.properties.string import StringProperty
+from data_mapper.shortcuts import D, P, V
+from data_mapper.tests.test_utils import PropertyTests
 
 
-class PropertyRefTests(TestCase):
+class PropertyRefTests(PropertyTests):
     def test__empty_source(self):
         with self.assertRaises(AssertionError):
             PropertyRef().get({})
@@ -56,6 +56,12 @@ class PropertyRefTests(TestCase):
             ),
             result,
         )
+
+    def test__ref_to_property_in_grandparent(self):
+        self.prop_test(D(
+            x=V(1),
+            y=P(PropertyRef('x'))
+        ), dict(x=1, y=1))
 
     def test__flat_source__bc(self):
         class MyMapper(Mapper):

@@ -43,13 +43,13 @@ class Property(AllOperations):
             value = data
             try:
                 if isinstance(source, AbstractProperty):
-                    value = source.get(value)
+                    value = source.get(value, result)
                 elif isinstance(source, str) or not hasattr(source, '__iter__'):
                     value = self.get_value(value, source)
                 else:
                     for sub_source in source:
                         if isinstance(sub_source, AbstractProperty):
-                            value = sub_source.get(value)
+                            value = sub_source.get(value, result)
                         else:
                             value = self.get_value(value, sub_source)
                 value = self.eval(
