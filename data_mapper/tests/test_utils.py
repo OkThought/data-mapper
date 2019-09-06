@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from data_mapper.errors import PropertyNotFound
+from data_mapper.errors import PropertyNotResolved
 
 
 class Person:
@@ -56,4 +56,4 @@ class PropertyTests(TestCase):
         self.prop_test(prop, data=data, exc=exc)
 
     def prop_not_found(self, prop, data=None):
-        self.prop_raises(PropertyNotFound, prop, data)
+        self.prop_raises(PropertyNotResolved, prop, data)

@@ -1,9 +1,10 @@
-from typing import Iterable
+class PropertyNotResolved(LookupError):
+    def __init__(self, prop):
+        self.prop = prop
+        super().__init__(str(prop))
 
 
-class PropertyNotFound(LookupError):
-    def __init__(self, sources: Iterable):
-        super().__init__(f'Property not found in sources: {sources}')
+PropertyNotFound = PropertyNotResolved  # backwards compatibility
 
 
 class ValidationError(ValueError):

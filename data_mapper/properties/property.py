@@ -1,6 +1,6 @@
 from typing import Iterable, Callable
 
-from data_mapper.errors import PropertyNotFound
+from data_mapper.errors import PropertyNotResolved
 from data_mapper.properties.abstract import AbstractProperty
 from data_mapper.properties.operations import AllOperations
 from data_mapper.utils import NOT_SET, cached_property
@@ -73,7 +73,7 @@ class Property(AllOperations):
         if self.default is not NOT_SET:
             value = self.default
         elif self.required:
-            raise PropertyNotFound(sources)
+            raise PropertyNotResolved(self)
         else:
             value = None
         return value

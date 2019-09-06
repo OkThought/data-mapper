@@ -1,4 +1,4 @@
-from data_mapper.errors import PropertyNotFound
+from data_mapper.errors import PropertyNotResolved
 from data_mapper.properties.integer import IntegerProperty
 from data_mapper.properties.property import Property
 from data_mapper.properties.string import StringProperty
@@ -53,7 +53,7 @@ class PropertyTests(PropertyTests):
         self.assertEqual(1, Property(Value(1)).get({}))
 
     def test__sources__property__not_found(self):
-        with self.assertRaises(PropertyNotFound):
+        with self.assertRaises(PropertyNotResolved):
             Property(Property('x')).get({})
 
     def test__sources__properties(self):
@@ -84,5 +84,5 @@ class PropertyTests(PropertyTests):
 
         prop = StringProperty(
             'unknown', get_value=getattr, get_value_exc=AttributeError)
-        with self.assertRaises(PropertyNotFound):
+        with self.assertRaises(PropertyNotResolved):
             prop.get(pushkin)

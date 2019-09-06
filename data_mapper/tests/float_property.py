@@ -1,4 +1,4 @@
-from data_mapper.errors import PropertyNotFound
+from data_mapper.errors import PropertyNotResolved
 from data_mapper.properties.float import FloatProperty
 from data_mapper.tests.test_utils import PropertyTests
 
@@ -19,7 +19,7 @@ class FloatPropertyTests(PropertyTests):
         )
 
     def test__str__empty(self):
-        with self.assertRaises(PropertyNotFound):
+        with self.assertRaises(PropertyNotResolved):
             self.prop_test(
                 prop=FloatProperty('x'),
                 data=dict(x=''),
