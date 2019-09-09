@@ -57,12 +57,14 @@ class Operation(Property):
             if isinstance(props, AbstractProperty):
                 yield props.get(data, result)
             else:
+                errors = []
                 for prop in props:
                     try:
                         yield prop.get(data, result)
-                    except PropertyNotResolved:
+                    except PropertyNotResolved as e:
+                        errors.append(e)
                         continue
                     else:
                         break
                 else:
-                    raise PropertyNotResolved(self)
+                    raise PropertyNotResolved(self, errors)
