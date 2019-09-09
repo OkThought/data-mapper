@@ -163,7 +163,7 @@ class And(BinaryOperation):
         for i in self.get_args(data, result=result):
             if not i:
                 return i
-        return True
+        return i
 
 
 class Lshift(BinaryOperation):
@@ -175,7 +175,7 @@ class Or(BinaryOperation):
         for i in self.get_args(data, result=result):
             if i:
                 return i
-        return False
+        return i
 
 
 class Rshift(BinaryOperation):
