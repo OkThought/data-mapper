@@ -159,7 +159,11 @@ class Inv(UnaryOperation):
 # Bitwise Binary Operations **************************************#
 
 class And(BinaryOperation):
-    star_func = and_
+    def get(self, data, result=None):
+        for i in self.get_args(data, result=result):
+            if not i:
+                return False
+        return True
 
 
 class Lshift(BinaryOperation):
@@ -167,7 +171,11 @@ class Lshift(BinaryOperation):
 
 
 class Or(BinaryOperation):
-    star_func = or_
+    def get(self, data, result=None):
+        for i in self.get_args(data, result=result):
+            if i:
+                return True
+        return False
 
 
 class Rshift(BinaryOperation):
