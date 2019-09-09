@@ -162,7 +162,7 @@ class And(BinaryOperation):
     def get(self, data, result=None):
         for i in self.get_args(data, result=result):
             if not i:
-                return False
+                return i
         return True
 
 
@@ -174,7 +174,7 @@ class Or(BinaryOperation):
     def get(self, data, result=None):
         for i in self.get_args(data, result=result):
             if i:
-                return True
+                return i
         return False
 
 
