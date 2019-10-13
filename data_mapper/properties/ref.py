@@ -2,12 +2,12 @@ from data_mapper.properties import Property
 
 
 class PropertyRef(Property):
-    def __init__(self, *sources, sources_it=None, **kwargs):
-        if len(sources) == 1 and hasattr(sources[0], '__iter__') \
-                and not isinstance(sources[0], str):
-            # backwards compatibility
-            sources_it, sources = sources[0], ()
-        super().__init__(*sources, sources_it=sources_it, **kwargs)
+    default_sources = []
+
+    def __init__(self, source=None, *sources, **kwargs):
+        if source is not None:
+            sources = [source, *sources]
+        super().__init__(*sources, **kwargs)
 
     def get(self, data, result=None):
         assert result is not None, \
@@ -15,9 +15,13 @@ class PropertyRef(Property):
             f'You can only use {self.__class__.__name__} inside of other ' \
             'property that has its own result (e.g. CompoundProperty). ' \
             'Or you can pass your own object as a result.'
-        value = result
-        sources = self.get_sources()
-        assert sources, 'no sources, must be set at some point'
-        for sub_source in sources:
-            value = self.get_value(value, sub_source)
-        return value
+        return super().get(result)
+
+    def configure_source(self, source, *args, **kwargs):
+        pass
+
+    def configure_sources(self, *args, **kwargs):
+        pass
+
+    def get_value_default(self, d, k):
+        return d[k]

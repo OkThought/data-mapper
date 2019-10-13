@@ -1,9 +1,9 @@
 from data_mapper.errors import PropertyNotResolved
 from data_mapper.properties.float import FloatProperty
-from data_mapper.tests.test_utils import PropertyTests
+from data_mapper.tests.test_utils import PropertyTestCase
 
 
-class FloatPropertyTests(PropertyTests):
+class FloatPropertyTests(PropertyTestCase):
     def test__int(self):
         self.prop_test(
             prop=FloatProperty('x'),

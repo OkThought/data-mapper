@@ -1,110 +1,38 @@
-from data_mapper.mappers.mapper import Mapper
-from data_mapper.properties import Value
-from data_mapper.properties.compound import CompoundProperty
-from data_mapper.properties.ref import PropertyRef
-from data_mapper.properties.string import StringProperty
-from data_mapper.shortcuts import D, P, V
-from data_mapper.tests.test_utils import PropertyTests
+from data_mapper.errors import PropertyNotResolved
+from data_mapper.shortcuts import D, V, R
+from data_mapper.tests.test_utils import PropertyTestCase
 
 
-class PropertyRefTests(PropertyTests):
+class PropertyRefTests(PropertyTestCase):
     def test__empty_source(self):
-        with self.assertRaises(AssertionError):
-            PropertyRef().get({})
-        with self.assertRaises(AssertionError):
-            PropertyRef(sources_it=[]).get({})
+        with self.assertRaises(PropertyNotResolved):
+            R().get({}, {})
+        with self.assertRaises(PropertyNotResolved):
+            R(sources_it=[]).get({}, {})
+        self.prop_test(D(x=V(1), y=D(x=R()))['y']['x'], 1)
 
-    def test__flat_source(self):
-        class MyMapper(Mapper):
-            first_name = StringProperty('name')
-            also_first_name = PropertyRef('first_name')
-        mapper = MyMapper()
-        name = 'Leo'
-        result = mapper.get(dict(name=name))
-        self.assertEqual(name, result['first_name'])
-        self.assertEqual(name, result['also_first_name'])
+    def test__source(self):
+        self.prop_test(R(1), 9, result={1: 9})
 
-    def test__deep_source(self):
-        class MyMapper(Mapper):
-            full_name = CompoundProperty(
-                first_name=StringProperty('name'),
-                last_name=StringProperty('surname'),
-            )
-            first_name = PropertyRef('full_name', 'first_name')
-        mapper = MyMapper()
-        name, surname = 'Peter Pan'.split()
-        result = mapper.get(dict(name=name, surname=surname))
-        self.assertEqual(name, result['first_name'])
+    def test__sources(self):
+        self.prop_test(R(1, 2), 9, result={2: 9})
 
-    def test__deep(self):
-        class MyMapper(Mapper):
-            full_name = CompoundProperty(
-                first_name=StringProperty('name'),
-                last_name=PropertyRef('last_name'),
-            )
-            last_name = Value('Pan')
-        mapper = MyMapper()
-        name, surname = 'Peter Pan'.split()
-        result = mapper.get(dict(name=name))
-        self.assertEqual(
-            dict(
-                full_name=dict(
-                    first_name=name,
-                    last_name=surname,
-                ),
-                last_name=surname,
-            ),
-            result,
-        )
+    def test__sources_it(self):
+        self.prop_test(R(sources_it=[1, 2]), 9, result={2: 9})
+        self.prop_test(R(sources_it=[[1, 2]]), 9, result={1: {2: 9}})
+
+    def test__source__list(self):
+        self.prop_test(R([1]), 9, result={1: 9})
+        self.prop_test(R([1, 2]), 9, result={1: {2: 9}})
+
+    def test__sources__lists(self):
+        self.prop_test(R([2, 1], [1, 3], [1, 2]), 9, result={1: {2: 9}})
+
+    def test__result__list(self):
+        self.prop_test(R(0), 9, result=[9])
+
+    def test__ref_to_property_in_parent(self):
+        self.prop_test(D(x=V(1), y=R('x'))['y'], 1)
 
     def test__ref_to_property_in_grandparent(self):
-        self.prop_test(D(
-            x=V(1),
-            y=P(PropertyRef('x'))
-        ), dict(x=1, y=1))
-
-    def test__flat_source__bc(self):
-        class MyMapper(Mapper):
-            first_name = StringProperty(['name'])
-            also_first_name = PropertyRef(['first_name'])
-
-        mapper = MyMapper()
-        name = 'Leo'
-        result = mapper.get(dict(name=name))
-        self.assertEqual(name, result['first_name'])
-        self.assertEqual(name, result['also_first_name'])
-
-    def test__deep_source__bc(self):
-        class MyMapper(Mapper):
-            full_name = CompoundProperty(
-                first_name=StringProperty(['name']),
-                last_name=StringProperty(['surname']),
-            )
-            first_name = PropertyRef(['full_name', 'first_name'])
-
-        mapper = MyMapper()
-        name, surname = 'Peter Pan'.split()
-        result = mapper.get(dict(name=name, surname=surname))
-        self.assertEqual(name, result['first_name'])
-
-    def test__deep__bc(self):
-        class MyMapper(Mapper):
-            full_name = CompoundProperty(
-                first_name=StringProperty('name'),
-                last_name=PropertyRef(['last_name']),
-            )
-            last_name = Value('Pan')
-
-        mapper = MyMapper()
-        name, surname = 'Peter Pan'.split()
-        result = mapper.get(dict(name=name))
-        self.assertEqual(
-            dict(
-                full_name=dict(
-                    first_name=name,
-                    last_name=surname,
-                ),
-                last_name=surname,
-            ),
-            result,
-        )
+        self.prop_test(D(x=V(1), y=D(z=R('x')))['y']['z'], 1)

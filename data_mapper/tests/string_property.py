@@ -1,9 +1,9 @@
 from data_mapper.mappers.mapper import Mapper
 from data_mapper.properties.string import StringProperty
-from data_mapper.tests.test_utils import PropertyTests
+from data_mapper.tests.test_utils import PropertyTestCase
 
 
-class StringPropertyTests(PropertyTests):
+class StringPropertyTests(PropertyTestCase):
     def test__in_mapper(self):
         value, expected_value = 'hannah', 'hannah'
 

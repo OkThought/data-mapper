@@ -1,9 +1,9 @@
 from data_mapper.errors import PropertyNotResolved
 from data_mapper.properties.integer import IntegerProperty
-from data_mapper.tests.test_utils import PropertyTests
+from data_mapper.tests.test_utils import PropertyTestCase
 
 
-class IntegerPropertyTests(PropertyTests):
+class IntegerPropertyTests(PropertyTestCase):
     def test__int(self):
         self.prop_test(
             prop=IntegerProperty('x'),

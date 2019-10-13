@@ -18,15 +18,15 @@ class CompoundProperty(Property):
         _options = {**self._default_options, **_options}
         self.lazy = _options.pop('lazy')
         sources = _options.pop('sources')
-        super().__init__(sources_it=sources, **_options)
         self.props_map = props_map
-        self.configure_props(props_map)
+        super().__init__(sources_it=sources, **_options)
 
-    def configure_props(self, props_map):
-        for key, prop in props_map.items():
-            self.configure_prop(prop, key)
+    def configure_sources(self):
+        for key, prop in self.props_map.items():
+            self.configure_source(prop, key)
 
-    def configure_prop(self, prop, key):
+    def configure_source(self, prop, key=None, *args, **kwargs):
+        assert key is not None
         prop.parent = self
         if getattr(prop, 'sources', 0) is None:
             prop.sources = [key]
@@ -40,7 +40,7 @@ class CompoundProperty(Property):
         )
         return result
 
-    def __str__(self):
+    def __repr__(self):
         return f"""{
         self.__class__.__name__
         }({

@@ -31,21 +31,22 @@ class Person:
                f'{self.middle_name})'
 
 
-class PropertyTests(TestCase):
+class PropertyTestCase(TestCase):
     def prop_test(
             self,
             prop,
             expect=None,
             data=None,
             exc=None,
+            result=None
     ):
         if data is None:
             data = {}
         if exc is not None:
             with self.assertRaises(exc):
-                prop.get(data)
+                prop.get(data, result=result)
         else:
-            self.assertEqual(expect, prop.get(data))
+            self.assertEqual(expect, prop.get(data, result=result))
 
     def prop_raises(
             self,

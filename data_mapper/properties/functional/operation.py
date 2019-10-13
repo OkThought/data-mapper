@@ -28,20 +28,6 @@ class Operation(Property):
 
         super().__init__(*props, sources_it=props_it, **kwargs)
 
-        self.configure_props()
-
-    def configure_props(self):
-        for source in self.get_sources():
-            if isinstance(source, AbstractProperty):
-                self.configure_prop(source)
-            else:
-                for prop in source:
-                    self.configure_prop(prop)
-
-    def configure_prop(self, prop):
-        if isinstance(prop, Property):
-            prop.parent = self
-
     def apply(self, *args):
         if self.star_func is not None:
             return self.star_func(*args)
@@ -50,7 +36,11 @@ class Operation(Property):
         raise NotImplementedError
 
     def get(self, data, result=None):
-        return self.apply(*self.get_args(data, result))
+        try:
+            value = self.apply(*self.get_args(data, result))
+        except self.get_value_exc as e:
+            value = self.value_if_not_found(errors=[e], result=result)
+        return value
 
     def get_args(self, data, result=None):
         for props in self.get_sources():
@@ -61,7 +51,7 @@ class Operation(Property):
                 for prop in props:
                     try:
                         yield prop.get(data, result)
-                    except PropertyNotResolved as e:
+                    except self.get_value_exc as e:
                         errors.append(e)
                         continue
                     else:

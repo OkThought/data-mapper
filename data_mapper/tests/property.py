@@ -3,11 +3,10 @@ from data_mapper.properties.integer import IntegerProperty
 from data_mapper.properties.property import Property
 from data_mapper.properties.string import StringProperty
 from data_mapper.properties.value import Value
-from data_mapper.tests.test_utils import Person, PropertyTests
+from data_mapper.tests.test_utils import Person, PropertyTestCase
 
 
-# noinspection PyRedeclaration
-class PropertyTests(PropertyTests):
+class PropertyTests(PropertyTestCase):
     def test__root_source(self):
         prop = Property([])
         data = dict(x=1)
@@ -23,7 +22,7 @@ class PropertyTests(PropertyTests):
     def test__str(self):
         self.assertEqual('Property([])', str(Property([])))
         self.assertEqual("Property('x')", str(Property('x')))
-        self.assertEqual("Property('x','y')", str(Property('x', 'y')))
+        self.assertEqual("Property('x', 'y')", str(Property('x', 'y')))
         self.assertEqual('StringProperty()', str(StringProperty()))
 
     def test__default(self):

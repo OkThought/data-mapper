@@ -1,10 +1,10 @@
 from data_mapper.properties import StringProperty
 from data_mapper.properties.boolean import BooleanProperty
 from data_mapper.shortcuts import F
-from data_mapper.tests.test_utils import PropertyTests
+from data_mapper.tests.test_utils import PropertyTestCase
 
 
-class BooleanPropertyTests(PropertyTests):
+class BooleanPropertyTests(PropertyTestCase):
     def test__bool(self):
         self.prop_test(
             prop=BooleanProperty('x'),

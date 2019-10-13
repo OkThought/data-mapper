@@ -16,5 +16,5 @@ class Mapper(CompoundProperty):
     def _get_class_props(self) -> Iterable[Tuple[Any, AbstractProperty]]:
         for key, prop in self.__class__.__dict__.items():
             if isinstance(prop, AbstractProperty):
-                self.configure_prop(prop, key)
+                self.configure_source(prop, key)
                 yield (key, prop)

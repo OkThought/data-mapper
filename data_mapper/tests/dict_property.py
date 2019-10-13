@@ -1,8 +1,8 @@
 from data_mapper.properties.dict import DictProperty
-from data_mapper.tests.test_utils import PropertyTests
+from data_mapper.tests.test_utils import PropertyTestCase
 
 
-class DictPropertyTests(PropertyTests):
+class DictPropertyTests(PropertyTestCase):
     def test__dict(self):
         address = dict(
             city='London',

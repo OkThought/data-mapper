@@ -1,8 +1,8 @@
 from data_mapper.properties.list import ListProperty
-from data_mapper.tests.test_utils import PropertyTests
+from data_mapper.tests.test_utils import PropertyTestCase
 
 
-class ListPropertyTests(PropertyTests):
+class ListPropertyTests(PropertyTestCase):
     def test__empty(self):
         self.prop_test(ListProperty(['x']), [], dict(x=[]))
 

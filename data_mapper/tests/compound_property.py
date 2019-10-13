@@ -2,10 +2,10 @@ from data_mapper.properties import Property, PropertyRef
 from data_mapper.properties.compound import CompoundProperty
 from data_mapper.properties.string import StringProperty
 from data_mapper.shortcuts import V
-from data_mapper.tests.test_utils import PropertyTests
+from data_mapper.tests.test_utils import PropertyTestCase
 
 
-class CompoundPropertyTests(PropertyTests):
+class CompoundPropertyTests(PropertyTestCase):
     def test(self):
         prop = CompoundProperty(
             first_name=StringProperty(['name']),

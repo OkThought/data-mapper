@@ -1,4 +1,4 @@
-from typing import Callable, Iterable, Mapping
+from typing import Callable, Iterable, Mapping, Any
 
 from data_mapper.properties import CompoundProperty
 from data_mapper.properties.abstract import AbstractProperty
@@ -8,8 +8,8 @@ class FunctionProperty(CompoundProperty):
     def __init__(
             self,
             func: Callable = None,
-            *pos_args: AbstractProperty,
-            args: AbstractProperty or Iterable[AbstractProperty] = None,
+            *pos_args: Any,
+            args: Any = None,
             kwargs: AbstractProperty or Mapping[AbstractProperty] = None,
             **options,
     ):

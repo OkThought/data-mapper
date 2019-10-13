@@ -9,5 +9,5 @@ class Value(Property):
     def get(self, data, result=None):
         return self.value
 
-    def __str__(self):
-        return f'Value({self.value})'
+    def __repr__(self):
+        return f'Value({repr(self.value)})'

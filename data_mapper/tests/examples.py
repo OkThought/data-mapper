@@ -50,16 +50,16 @@ class ExamplesTests(TestCase):
             ),
         )
 
-        assert 'Anton Pavlovich Chekhov' == full_name.get(dict(
+        self.assertEqual('Anton Pavlovich Chekhov', full_name.get(dict(
             first_name='Anton',
             middle_name='Pavlovich',
             last_name='Chekhov',
-        ))
+        )))
 
-        assert 'Anton Chekhov' == full_name.get(dict(
+        self.assertEqual('Anton Chekhov', full_name.get(dict(
             first_name='Anton',
             last_name='Chekhov',
-        ))
+        )))
 
     @staticmethod
     def test__object_mapper__subclass():

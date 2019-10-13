@@ -8,7 +8,7 @@ from data_mapper.utils import NOT_SET, cached_property
 
 class Property(AllOperations):
     default_sources = [[]]
-    get_value_exc_default = (LookupError, AttributeError, ValueError, TypeError)
+    get_value_exc_default = (LookupError, AttributeError, TypeError)
 
     def __init__(
             self,
@@ -35,6 +35,19 @@ class Property(AllOperations):
         self._get_value = get_value
         self._get_value_exc = get_value_exc
         self.parent = None
+        self.configure_sources()
+
+    def configure_sources(self, *args, **kwargs):
+        for source in self.get_sources():
+            if hasattr(source, '__iter__'):
+                for prop in source:
+                    self.configure_source(prop)
+            else:
+                self.configure_source(source)
+
+    def configure_source(self, source, *args, **kwargs):
+        if isinstance(source, Property):
+            source.parent = self
 
     def get(self, data, result=None):
         sources = self.get_sources()
@@ -62,11 +75,20 @@ class Property(AllOperations):
                 errors.append(e)
                 continue
             else:
-                break
+                if self.should_stop(
+                        errors=errors,
+                        sources=sources,
+                        result=result,
+                        current_source=source,
+                ):
+                    break
         else:
             value = self.value_if_not_found(errors=errors)
 
         return value
+
+    def should_stop(self, **context):
+        return True
 
     def value_if_not_found(self, errors=None, **context):
         if self.default is not NOT_SET:
@@ -103,11 +125,10 @@ class Property(AllOperations):
             get_value = self.get_value_default
         return get_value
 
-    @staticmethod
-    def get_value_default(d, k):
+    def get_value_default(self, d, k):
         try:
             return d[k]
-        except (LookupError, TypeError) as e:
+        except self.get_value_exc as e:
             if isinstance(k, str):
                 return getattr(d, k)
             raise e
@@ -121,9 +142,9 @@ class Property(AllOperations):
             get_value_exc = self.get_value_exc_default
         return get_value_exc
 
-    def __str__(self):
+    def __repr__(self):
         if self.sources is None:
             sources_str = ''
         else:
-            sources_str = ",".join(map(repr, self.sources))
+            sources_str = ", ".join(map(repr, self.sources))
         return f'{self.__class__.__name__}({sources_str})'

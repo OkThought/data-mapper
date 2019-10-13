@@ -4,10 +4,10 @@ from data_mapper.shortcuts import (
     Dict, List,
     L,
 )
-from data_mapper.tests.test_utils import PropertyTests
+from data_mapper.tests.test_utils import PropertyTestCase
 
 
-class ShortcutsTests(PropertyTests):
+class ShortcutsTests(PropertyTestCase):
     def test__v(self):
         self.prop_test(V(1), 1)
 

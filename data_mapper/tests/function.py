@@ -1,9 +1,9 @@
 from data_mapper.properties.functional import FunctionProperty
 from data_mapper.shortcuts import V
-from data_mapper.tests.test_utils import PropertyTests
+from data_mapper.tests.test_utils import PropertyTestCase
 
 
-class FunctionPropertyTests(PropertyTests):
+class FunctionPropertyTests(PropertyTestCase):
     def test__no_args__no_kwargs(self):
         self.prop_test(FunctionProperty(lambda: 1), 1)
         self.prop_test(FunctionProperty(lambda: 2, args=V(())), 2)

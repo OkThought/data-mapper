@@ -2,10 +2,10 @@ from data_mapper.errors import ValidationError
 from data_mapper.properties import Property
 from data_mapper.properties.compound_list import CompoundListProperty
 from data_mapper.shortcuts import V, P
-from data_mapper.tests.test_utils import PropertyTests
+from data_mapper.tests.test_utils import PropertyTestCase
 
 
-class CompoundListPropertyTests(PropertyTests):
+class CompoundListPropertyTests(PropertyTestCase):
     def test__simple(self):
         self.prop_test(CompoundListProperty(V(1), V(2)), [1, 2])
 
