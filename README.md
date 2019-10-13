@@ -4,6 +4,13 @@ A declarative data mapper
 ![PyPI](https://img.shields.io/pypi/v/data-mapper?style=for-the-badge)
 ![Travis (.org) branch](https://img.shields.io/travis/OkThought/data-mapper/master?logo=travis&style=for-the-badge)
 
+## Disclaimer
+I don't know if anyone uses this library except for me so I'm not
+putting much effort in writing good documentation. If you are using it
+or just thinking about using it, give me a sign of your attention (e.g.
+star this repo, or open an issue) and this will definitely motivate me
+to do it ;)
+
 ## Description
 
 Most projects work with different representations of the same data.
