@@ -28,6 +28,9 @@ class PropertyRefTests(PropertyTestCase):
     def test__sources__lists(self):
         self.prop_test(R([2, 1], [1, 3], [1, 2]), 9, result={1: {2: 9}})
 
+    def test__default(self):
+        self.prop_test(R(default=9), 9, result={})
+
     def test__result__list(self):
         self.prop_test(R(0), 9, result=[9])
 
