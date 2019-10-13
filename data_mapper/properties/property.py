@@ -72,7 +72,13 @@ class Property(AllOperations):
                     current_source=source,
                 )
             except self.get_value_exc as e:
-                errors.append(e)
+                self.handle_error(
+                    e,
+                    errors=errors,
+                    sources=sources,
+                    result=result,
+                    current_source=source,
+                )
                 continue
             else:
                 if self.should_stop(
@@ -89,6 +95,9 @@ class Property(AllOperations):
 
     def should_stop(self, **context):
         return True
+
+    def handle_error(self, e: BaseException, *args, errors, **context):
+        errors.append(e)
 
     def value_if_not_found(self, errors=None, **context):
         if self.default is not NOT_SET:

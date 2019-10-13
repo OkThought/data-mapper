@@ -31,22 +31,26 @@ class Person:
                f'{self.middle_name})'
 
 
+NO_ASSERT = '__no_assert__'
+
+
 class PropertyTestCase(TestCase):
     def prop_test(
             self,
             prop,
             expect=None,
             data=None,
-            exc=None,
-            result=None
+            result=None,
     ):
         if data is None:
             data = {}
-        if exc is not None:
-            with self.assertRaises(exc):
+        if isinstance(expect, type) and issubclass(expect, BaseException):
+            with self.assertRaises(expect):
                 prop.get(data, result=result)
         else:
-            self.assertEqual(expect, prop.get(data, result=result))
+            value = prop.get(data, result=result)
+            if expect != NO_ASSERT:
+                self.assertEqual(expect, value)
 
     def prop_raises(
             self,
@@ -54,7 +58,9 @@ class PropertyTestCase(TestCase):
             prop,
             data=None,
     ):
-        self.prop_test(prop, data=data, exc=exc)
+        self.prop_test(prop, exc, data)
 
     def prop_not_found(self, prop, data=None):
         self.prop_raises(PropertyNotResolved, prop, data)
+
+    prop_not_resolved = prop_not_found

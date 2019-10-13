@@ -46,6 +46,9 @@ class CompoundListProperty(Property):
     def should_stop(self, **context):
         return False
 
+    def handle_error(self, e: BaseException, *args, errors, **context):
+        raise e
+
     def value_if_not_found(self, errors=None, **context):
         return self.values
 
